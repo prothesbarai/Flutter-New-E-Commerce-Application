@@ -1,9 +1,14 @@
+import 'package:AppStore/pages/CartPage.dart';
+import 'package:AppStore/pages/ReusableAllProductsPage.dart';
+import 'package:AppStore/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:AppStore/pages/EditProfilePage.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:AppStore/utils/AppString.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'data/dummy_data.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized(); // Hive.init Crushed Purpose
@@ -105,8 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.shopping_cart,color: AppColor.pink1,),
             onPressed: () {
-              // Notifications action
-              print("Notifications button tapped");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
             },
           ),
           PopupMenuButton<String>(
@@ -188,36 +195,99 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
       // Body Start Here
-        body: SafeArea(
-          child: Column(
-            children: [
-              // Static Search Bar
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 25.0),
-                child: TextField(
-                  style: TextStyle(fontSize: 14),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                    prefixIcon: Icon(Icons.search, color: AppColor.pink1, size: 20),
-                    hintText: AppString.searchHint,
-                    hintStyle: TextStyle(fontSize: 14),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.pink1),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.pink1),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🔍 Static Search Bar
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25.0),
+              child: TextField(
+                style: TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  prefixIcon: Icon(Icons.search, color: AppColor.pink1, size: 20),
+                  hintText: AppString.searchHint,
+                  hintStyle: TextStyle(fontSize: 14),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColor.pink1),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColor.pink1),
+                    borderRadius: BorderRadius.circular(100),
                   ),
                 ),
               ),
-              // ======================= Content Write Start Here ====================
+            ),
 
+            // New Arrivals Title Row (Add this part)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "New Arrivals",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AllProductsPage(
+                                title: "All Products",
+                                products: dummyProducts,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Text("All Products", style: TextStyle(fontSize: 14)),
+                            Icon(Icons.arrow_forward_ios, size: 14),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
 
-            ],
-          ),
+            // Product GridView
+            SizedBox(
+              height: 330,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(8),
+                itemCount: dummyProducts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisExtent: 140,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemBuilder: (context, index) {
+                  final product = dummyProducts[index];
+                  return ProductItem(
+                    product: product,
+                    onTap: () {
+                      // Add to cart
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
+      ),
+
+
+
 
 
       bottomNavigationBar: BottomAppBar(
