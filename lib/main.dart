@@ -28,6 +28,8 @@ class MyHomePage extends StatefulWidget {
 }
 class _MyHomePageState extends State<MyHomePage> {
 
+  static const String email = "example123@gmail.com";
+  static const String profileName = "Profile Name";
   bool _isSearching = false;
   TextEditingController _searchingController = TextEditingController();
 
@@ -43,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           cursorHeight: 16,
           cursorWidth: 1.5,
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: AppString.searchHint,
             hintStyle: TextStyle(color: Colors.grey[600],fontSize: 14),
             isDense: true,
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -114,11 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
               return [
                 PopupMenuItem(
                   value: 'settings',
-                  child: Text('Settings'),
+                  child: Text(AppString.setting),
                 ),
                 PopupMenuItem(
                   value: 'logout',
-                  child: Text('Logout'),
+                  child: Text(AppString.logout),
                 ),
               ];
             },
@@ -126,39 +128,44 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
 
       ),
-
       drawer: Drawer(
         child: Container(
+          padding: EdgeInsets.all(0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppColor.pink1, AppColor.pink2],
+              colors: [AppColor.pink1,AppColor.pink2,AppColor.pink3],
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              end: Alignment.topRight
             ),
           ),
           child: ListView(
-            padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: Row(
-                  children: [
-                    Icon(Icons.account_circle, size: 48, color: Colors.yellowAccent),
-                    SizedBox(width: 10),
-                    Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.yellowAccent,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                  decoration: BoxDecoration(color: Colors.transparent),
+                  child: Row(
+                    children: [
+                      Icon(Icons.account_circle,size: 78.0,color: AppColor.yellowAccent,),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(profileName,style: TextStyle(color: AppColor.yellowAccent,fontSize: 20,fontWeight:FontWeight.bold),),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(email,style: TextStyle(color: AppColor.yellowAccent,fontSize: 18,),),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
               ),
+
               _buildDrawerItem(Icons.edit, 'Edit Profile', context, EditProfilePage()),
               _buildDrawerItem(Icons.layers, 'My Orders', context,EditProfilePage()),
-               Divider(color: Colors.yellow.shade100),
+              Divider(color: Colors.yellow.shade100),
               _buildDrawerItem(Icons.card_giftcard, 'Offers', context,EditProfilePage()),
               _buildDrawerItem(Icons.category, 'All Categories', context,EditProfilePage()),
               _buildDrawerItem(Icons.playlist_add_check, 'Shop by Concern', context,EditProfilePage()),
@@ -167,10 +174,13 @@ class _MyHomePageState extends State<MyHomePage> {
               _buildDrawerItem(Icons.location_on, 'Set a Delivery Point', context,EditProfilePage()),
               _buildDrawerItem(Icons.map, 'Covered Areas', context,EditProfilePage()),
               _buildDrawerItem(Icons.store, 'About Paikaree', context,EditProfilePage()),
+
             ],
           ),
         ),
       ),
+
+
       // Body Start Here
         body: SafeArea(
           child: Column(
@@ -183,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                     prefixIcon: Icon(Icons.search, color: AppColor.pink1, size: 20),
-                    hintText: 'Search...',
+                    hintText: AppString.searchHint,
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppColor.pink1),
@@ -198,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               // ======================= Content Write Start Here ====================
 
-              
+
             ],
           ),
         ),
@@ -249,24 +259,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-
-  Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage) {
+  Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage){
     return ListTile(
-      leading: Icon(icon, color: Colors.yellowAccent),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.yellowAccent, fontSize: 16),
-      ),
-      onTap: () {
+      leading: Icon(icon,color: AppColor.yellowAccent,),
+      title: Text(title, style: TextStyle(color: AppColor.yellowAccent,fontSize: 16),),
+      onTap: (){
         Navigator.pop(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => destinationPage),
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) => destinationPage,));
       },
     );
   }
-
 
 
 
