@@ -45,6 +45,30 @@ List<ProductModel> dummyProducts = [
     regularPrice: 350,
     memberPrice: 135,
     discount: 61,
+  ),ProductModel(
+    imageUrl: imgUrl,
+    title: 'King Mushroom Champignons Premium Whole',
+    regularPrice: 350,
+    memberPrice: 135,
+    discount: 61,
+  ),ProductModel(
+    imageUrl: imgUrl,
+    title: 'King Mushroom Champignons Premium Whole',
+    regularPrice: 350,
+    memberPrice: 135,
+    discount: 61,
+  ),ProductModel(
+    imageUrl: imgUrl,
+    title: 'King Mushroom Champignons Premium Whole',
+    regularPrice: 350,
+    memberPrice: 135,
+    discount: 61,
+  ),ProductModel(
+    imageUrl: imgUrl,
+    title: 'King Mushroom Champignons Premium Whole',
+    regularPrice: 350,
+    memberPrice: 135,
+    discount: 61,
   ),
   // aro add korte paro...
 ];
