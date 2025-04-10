@@ -157,7 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               _buildDrawerItem(Icons.edit, 'Edit Profile', context, EditProfilePage()),
-
               _buildDrawerItem(Icons.layers, 'My Orders', context,EditProfilePage()),
                Divider(color: Colors.yellow.shade100),
               _buildDrawerItem(Icons.card_giftcard, 'Offers', context,EditProfilePage()),
@@ -173,8 +172,36 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       // Body Start Here
-      // body: ,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Static Search Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 25.0),
+                child: TextField(
+                  style: TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    prefixIcon: Icon(Icons.search, color: AppColor.pink1, size: 20),
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(fontSize: 14),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColor.pink1),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColor.pink1),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                ),
+              ),
+              // ======================= Content Write Start Here ====================
 
+              
+            ],
+          ),
+        ),
 
 
       bottomNavigationBar: BottomAppBar(
@@ -221,12 +248,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
   }
-
-
-
-
-
-
 
 
   Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage) {
