@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const String profileName = "Profile Name";
   bool _isSearching = false;
   TextEditingController _searchingController = TextEditingController();
+  final newArrivals = dummyProducts.take(5).toList(); // Limit product to 5
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +265,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: GridView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.all(8),
-                itemCount: dummyProducts.length,
+                //itemCount: dummyProducts.length,
+                itemCount: newArrivals.length,// Only 5 items
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
                   mainAxisExtent: 140,
