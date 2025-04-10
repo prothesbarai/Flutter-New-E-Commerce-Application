@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:AppStore/pages/EditProfilePage.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:AppStore/utils/AppString.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main(){
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized(); // Hive.init Crushed Purpose
+  final dir = await getApplicationSupportDirectory(); // path provider give a local storage path
+  Hive.init(dir.path); // This Location Store Data
+  await Hive.openBox('localStorage'); // local storage Database name
   runApp(const MyApp());
 }
 
@@ -162,15 +168,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
               _buildDrawerItem(Icons.edit, 'Edit Profile', context, EditProfilePage()),
               _buildDrawerItem(Icons.layers, 'My Orders', context,EditProfilePage()),
-              Divider(color: Colors.yellow.shade100),
+              Divider(color: AppColor.yellowAccent),
               _buildDrawerItem(Icons.card_giftcard, 'Offers', context,EditProfilePage()),
               _buildDrawerItem(Icons.category, 'All Categories', context,EditProfilePage()),
               _buildDrawerItem(Icons.playlist_add_check, 'Shop by Concern', context,EditProfilePage()),
+              Divider(color: AppColor.yellowAccent,),
               _buildDrawerItem(Icons.shopping_bag, 'Shop by Brands', context,EditProfilePage()),
               _buildDrawerItem(Icons.card_membership, 'Membership Cards', context,EditProfilePage()),
+              Divider(color: AppColor.yellowAccent,),
               _buildDrawerItem(Icons.location_on, 'Set a Delivery Point', context,EditProfilePage()),
               _buildDrawerItem(Icons.map, 'Covered Areas', context,EditProfilePage()),
               _buildDrawerItem(Icons.store, 'About Paikaree', context,EditProfilePage()),
+
 
             ],
           ),
