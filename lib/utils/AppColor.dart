@@ -9,4 +9,5 @@ class AppColor{
   static const Color pink2 = Color(0xFFE91E63);
   static const Color pink3 = Color(0xFFae016a);
   static const Color yellowAccent = Color(0xFFffff00);
+  static const Color bodyColor = Color(0xFFfef7ff);
 }

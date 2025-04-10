@@ -61,15 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
           },
         )
-            : Text(
-          AppString.appName,
-          style: TextStyle(color: AppColor.yellowAccent),
-        ),
+            : Image.asset('assets/logos.png', height: 30,),
         automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColor.pink3, AppColor.pink3],
+                colors: [AppColor.bodyColor, AppColor.bodyColor],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -77,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.menu,color: AppColor.yellowAccent,),
+            icon: Icon(Icons.menu,color: AppColor.pink1,),
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
@@ -96,18 +93,18 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             icon: Icon(
               _isSearching ? Icons.close : Icons.search_rounded,
-              color: AppColor.yellowAccent,
+              color: AppColor.pink1,
             ),
           ),
           IconButton(
-            icon: Icon(Icons.shopping_cart,color: AppColor.yellowAccent,),
+            icon: Icon(Icons.shopping_cart,color: AppColor.pink1,),
             onPressed: () {
               // Notifications action
               print("Notifications button tapped");
             },
           ),
           PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert,color: AppColor.yellowAccent,),
+            icon: Icon(Icons.more_vert,color: AppColor.pink1,),
             onSelected: (value) {
               // Handle menu selection
               print("Selected: $value");
