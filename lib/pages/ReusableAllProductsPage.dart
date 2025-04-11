@@ -21,11 +21,11 @@ class AllProductsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: products.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 0.6,
-          mainAxisExtent: 315
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.6,
+            mainAxisExtent: 315
         ),
         itemBuilder: (context, index) {
           final product = products[index];

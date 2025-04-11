@@ -4,6 +4,7 @@ class ProductModel {
   final double regularPrice;
   final double memberPrice;
   final int discount;
+  int quantity;
 
   ProductModel({
     required this.imageUrl,
@@ -11,6 +12,7 @@ class ProductModel {
     required this.regularPrice,
     required this.memberPrice,
     required this.discount,
+    this.quantity = 0,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
