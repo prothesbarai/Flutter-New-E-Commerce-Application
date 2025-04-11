@@ -1,3 +1,4 @@
+import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import '../models/product_model.dart';
 
@@ -90,7 +91,7 @@ class _ProductItemState extends State<ProductItem> {
               child: Container(
                 height: 36,
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: AppColor.pink1,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
@@ -102,7 +103,7 @@ class _ProductItemState extends State<ProductItem> {
               height: 36,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.purple, width: 1.5),
+                border: Border.all(color: AppColor.pink1, width: 1.5),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -110,7 +111,7 @@ class _ProductItemState extends State<ProductItem> {
                 children: [
                   IconButton(
                     onPressed: decreaseQuantity,
-                    icon: const Icon(Icons.remove_circle_outline, color: Colors.purple),
+                    icon: const Icon(Icons.remove_circle_outline, color:AppColor.pink1),
                     iconSize: 20,
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
@@ -120,12 +121,12 @@ class _ProductItemState extends State<ProductItem> {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: AppColor.pink1,
                     ),
                   ),
                   IconButton(
                     onPressed: increaseQuantity,
-                    icon: const Icon(Icons.add_circle_outline, color: Colors.purple),
+                    icon: const Icon(Icons.add_circle_outline, color: AppColor.pink1),
                     iconSize: 20,
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
@@ -155,16 +156,16 @@ class _ProductItemState extends State<ProductItem> {
                 ),
                 Text(
                   'Member : ৳${widget.product.memberPrice.toStringAsFixed(0)}',
-                  style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 13),
+                  style: const TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 13),
                 ),
                 const SizedBox(height: 4),
                 const Row(
                   children: [
-                    Icon(Icons.star, color: Colors.purple, size: 14),
-                    Icon(Icons.star, color: Colors.purple, size: 14),
-                    Icon(Icons.star, color: Colors.purple, size: 14),
-                    Icon(Icons.star, color: Colors.purple, size: 14),
-                    Icon(Icons.star, color: Colors.purple, size: 14),
+                    Icon(Icons.star, color: AppColor.pink1, size: 14),
+                    Icon(Icons.star, color: AppColor.pink1, size: 14),
+                    Icon(Icons.star, color: AppColor.pink1, size: 14),
+                    Icon(Icons.star, color: AppColor.pink1, size: 14),
+                    Icon(Icons.star, color: AppColor.pink1, size: 14),
                   ],
                 )
               ],
