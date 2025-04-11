@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           },
         )
-            : Image.asset('assets/logos.png', height: 30,),
+            : Image.asset('assets/images/logos.png', height: 30,),
         automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: BoxDecoration(

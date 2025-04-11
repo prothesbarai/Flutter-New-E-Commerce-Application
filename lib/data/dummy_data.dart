@@ -1,6 +1,6 @@
 import '../models/product_model.dart';
 
-String imgUrl = "https://paikaree.com.bd/public/uploads/products/photos/parachute-just-for-baby---milky-glow-wash---100ml-paikaree-UJ2g.webp";
+String imgUrl = "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600";
 
 List<ProductModel> dummyProducts = [
   ProductModel(
