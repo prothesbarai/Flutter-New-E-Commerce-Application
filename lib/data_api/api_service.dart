@@ -12,7 +12,7 @@ class ApiService {
       List<dynamic> jsonData = json.decode(response.body);
       return jsonData.map((item) => ProductModel.fromMap(item)).toList();
     } else {
-      throw Exception('ডেটা আনতে সমস্যা হয়েছে');
+      throw Exception('Failed to fetch data');
     }
   }
 }

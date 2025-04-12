@@ -36,7 +36,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('কোনো পণ্য পাওয়া যায়নি'));
+            return const Center(child: Text('No products found'));
           }
 
           final products = snapshot.data!;

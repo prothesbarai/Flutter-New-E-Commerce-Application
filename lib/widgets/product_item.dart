@@ -101,9 +101,9 @@ class _ProductItemState extends State<ProductItem> {
             ): Container(
                 height: 36,
                 decoration: BoxDecoration(
-                color: AppColor.yellowAccent,
+                color: AppColor.white,
                 border: Border.all(color: AppColor.pink1, width: 1.5),
-                borderRadius: BorderRadius.circular(1),
+                borderRadius: BorderRadius.circular(100),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
