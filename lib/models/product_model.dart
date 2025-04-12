@@ -29,7 +29,7 @@ class ProductModel {
       memberPrice: double.parse(map['memberPrice'].toString()),
       discount: int.parse(map['discount'].toString()),
       total_quantity: int.parse(map['total_quantity'].toString()),
-    );
+    );//  Here The Json Format Data Parsing
   }
 
 

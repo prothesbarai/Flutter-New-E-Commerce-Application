@@ -25,13 +25,31 @@ class _ProductItemState extends State<ProductItem> {
     quantity = widget.product.quantity;
   }
 
-  void increaseQuantity() {
+  /*void increaseQuantity() {
     setState(() {
       quantity++;
     });
     widget.product.quantity = quantity;
     widget.onTap();
+  }*/
+  void increaseQuantity() {
+    if (quantity < widget.product.total_quantity) {
+      setState(() {
+        quantity++;
+      });
+      widget.product.quantity = quantity;
+      widget.onTap();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('স্টকে মাত্র ${widget.product.total_quantity}টি পণ্য আছে।'),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
+
 
   void decreaseQuantity() {
     setState(() {
