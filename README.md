@@ -118,7 +118,7 @@ Made with ❤️ by Prothes Barai
   `title` text DEFAULT NULL,
   `regularPrice` double DEFAULT NULL,
   `memberPrice` double DEFAULT NULL,
-  `discount` double DEFAULT NULL,
+  `discount` int DEFAULT NULL,
   `total_quantity` int(11) DEFAULT NULL
 )
 ```
