@@ -119,8 +119,8 @@ Made with ❤️ by Prothes Barai
   `regularPrice` double DEFAULT NULL,
   `memberPrice` double DEFAULT NULL,
   `discount` double DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `total_quantity` int(11) DEFAULT NULL
+)
 ```
 
 ```sql
