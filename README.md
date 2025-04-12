@@ -81,7 +81,7 @@ Made with ❤️ by Prothes Barai
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "pifast";
+      $dbname = "";
 
       // Create connection
       $conn = new mysqli($servername, $username, $password, $dbname);
