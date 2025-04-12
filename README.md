@@ -108,3 +108,36 @@ Made with ❤️ by Prothes Barai
    ?>
 
 ```
+
+
+## SQL Side Dummy Data 
+```sql
+   CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `imageUrl` text DEFAULT NULL,
+  `title` text DEFAULT NULL,
+  `regularPrice` double DEFAULT NULL,
+  `memberPrice` double DEFAULT NULL,
+  `discount` double DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+```sql
+INSERT INTO `products` (`id`, `imageUrl`, `title`, `regularPrice`, `memberPrice`, `discount`, `quantity`) VALUES
+(1, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 1', 100, 90, 10, 5),
+(2, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 2', 150, 135, 10, 8),
+(3, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 3', 200, 180, 10, 3),
+(4, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 4', 120, 110, 8.3, 10),
+(5, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 5', 250, 200, 20, 2),
+(6, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 6', 300, 270, 10, 7),
+(7, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 7', 180, 160, 11.1, 4),
+(8, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 8', 220, 210, 4.5, 6),
+(9, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 9', 130, 120, 7.7, 9),
+(10, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 10', 90, 85, 5.6, 12),
+(11, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 11', 140, 130, 7.1, 11),
+(12, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 12', 170, 150, 11.8, 1),
+(13, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 13', 160, 140, 12.5, 3),
+(14, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 14', 190, 175, 7.9, 6),
+(15, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600', 'Product 15', 210, 190, 9.5, 5);
+```
