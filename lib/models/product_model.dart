@@ -14,28 +14,34 @@ class ProductModel {
     required this.regularPrice,
     required this.memberPrice,
     required this.discount,
-    this.quantity = 0,
+    this.quantity = 0
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
+  // Map to Model
+  factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: json['id'],
-      imageUrl: json['imageUrl'],
-      title: json['title'],
-      regularPrice: json['regularPrice'].toDouble(),
-      memberPrice: json['memberPrice'].toDouble(),
-      discount: json['discount'],
+      id: int.parse(map['id'].toString()),
+      imageUrl: map['imageUrl'] ?? '',
+      title: map['title'] ?? '',
+      regularPrice: double.parse(map['regularPrice'].toString()),
+      memberPrice: double.parse(map['memberPrice'].toString()),
+      discount: int.parse(map['discount'].toString()),
     );
   }
 
-  Map<String, dynamic> toJson() {
+
+  /*// (Optional) Model to Map
+  Map<String, dynamic> toMap() {
     return {
-      'id' : id,
+      'id': id,
       'imageUrl': imageUrl,
       'title': title,
       'regularPrice': regularPrice,
       'memberPrice': memberPrice,
       'discount': discount,
     };
-  }
+  }*/
 }
+
+
+
