@@ -112,8 +112,8 @@ class _ProductItemState extends State<ProductItem> {
                       decoration: BoxDecoration(
                         color: AppColor.pink1,
                         borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
                         ),
                       ),
                       child: IconButton(
@@ -141,8 +141,8 @@ class _ProductItemState extends State<ProductItem> {
                       decoration: BoxDecoration(
                         color: AppColor.pink1,
                         borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
                         ),
                       ),
                       child: IconButton(
