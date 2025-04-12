@@ -84,7 +84,7 @@ class _ProductItemState extends State<ProductItem> {
 
           // Add/Remove Button Section
           Container(
-            padding: const EdgeInsets.only(bottom: 8,left: 4,right: 4,top: 8),
+            padding: const EdgeInsets.all(8),
             child: quantity == 0
                 ? InkWell(
               onTap: increaseQuantity,
@@ -98,37 +98,61 @@ class _ProductItemState extends State<ProductItem> {
                   child: Icon(Icons.add_circle_outline, color: Colors.yellowAccent),
                 ),
               ),
-            ): Container(
-                height: 36,
-                decoration: BoxDecoration(
+            )
+                : Container(
+              height: 36,
+              decoration: BoxDecoration(
                 color: AppColor.white,
-                border: Border.all(color: AppColor.pink1, width: 1.5),
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  IconButton(
-                    onPressed: decreaseQuantity,
-                    icon: const Icon(Icons.remove_circle_outline, color:AppColor.pink1),
-                    iconSize: 20,
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
-                  ),
-                  Text(
-                    '$quantity',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.pink1,
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColor.pink1,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomLeft: Radius.circular(12),
+                        ),
+                      ),
+                      child: IconButton(
+                        onPressed: decreaseQuantity,
+                        icon: const Icon(Icons.remove_circle_outline, color: AppColor.yellowAccent),
+                        iconSize: 20,
+                        constraints: const BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                      ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: increaseQuantity,
-                    icon: const Icon(Icons.add_circle_outline, color: AppColor.pink1),
-                    iconSize: 20,
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                      '$quantity',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.pink1,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColor.pink1,
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                      ),
+                      child: IconButton(
+                        onPressed: increaseQuantity,
+                        icon: const Icon(Icons.add_circle_outline, color: AppColor.yellowAccent),
+                        iconSize: 20,
+                        constraints: const BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                      ),
+                    ),
                   ),
                 ],
               ),
