@@ -42,9 +42,11 @@ class _ProductItemState extends State<ProductItem> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('স্টকে মাত্র ${widget.product.total_quantity}টি পণ্য আছে।'),
+          content: Text('স্টকে মাত্র ${widget.product.total_quantity} টি পণ্য আছে।'),
           duration: Duration(seconds: 2),
           backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(12), // Optional: margin for floating effect
         ),
       );
     }
