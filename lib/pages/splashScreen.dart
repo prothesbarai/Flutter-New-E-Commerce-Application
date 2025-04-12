@@ -16,7 +16,7 @@ class _SplashscreenState extends State<Splashscreen> {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () =>Navigator.push(context, CupertinoPageRoute(builder: (_) => MyHomePage(),)),);
+    Timer(Duration(seconds: 3), () =>Navigator.pushReplacement(context, CupertinoPageRoute(builder: (_) => MyHomePage(),)),);
     super.initState();
   }
 

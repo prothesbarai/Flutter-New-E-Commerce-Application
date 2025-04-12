@@ -1,6 +1,5 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
@@ -60,8 +59,8 @@ class _ProductItemState extends State<ProductItem> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.network(
                   widget.product.imageUrl,
-                  height: 118.5.h,
-                  width: double.infinity.w,
+                  height: 135,
+                  width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -90,7 +89,7 @@ class _ProductItemState extends State<ProductItem> {
                 ? InkWell(
               onTap: increaseQuantity,
               child: Container(
-                height: 25.h,
+                height: 36,
                 decoration: BoxDecoration(
                   color: AppColor.pink1,
                   borderRadius: BorderRadius.circular(12),
@@ -100,13 +99,13 @@ class _ProductItemState extends State<ProductItem> {
                 ),
               ),
             ): Container(
-                height: 25.h,
+                height: 36,
                 decoration: BoxDecoration(
-                  color: AppColor.yellowAccent,
-                  border: Border.all(color: AppColor.pink1, width: 1.5.w),
-                  borderRadius: BorderRadius.circular(1),
-                ),
-                child: Row(
+                color: AppColor.yellowAccent,
+                border: Border.all(color: AppColor.pink1, width: 1.5),
+                borderRadius: BorderRadius.circular(1),
+              ),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
