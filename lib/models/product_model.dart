@@ -1,4 +1,5 @@
 class ProductModel {
+  final int id;
   final String imageUrl;
   final String title;
   final double regularPrice;
@@ -7,6 +8,7 @@ class ProductModel {
   int quantity;
 
   ProductModel({
+    required this.id,
     required this.imageUrl,
     required this.title,
     required this.regularPrice,
@@ -17,6 +19,7 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
+      id: json['id'],
       imageUrl: json['imageUrl'],
       title: json['title'],
       regularPrice: json['regularPrice'].toDouble(),
@@ -27,6 +30,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id' : id,
       'imageUrl': imageUrl,
       'title': title,
       'regularPrice': regularPrice,

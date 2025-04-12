@@ -1,5 +1,6 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
@@ -59,8 +60,8 @@ class _ProductItemState extends State<ProductItem> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.network(
                   widget.product.imageUrl,
-                  height: 135,
-                  width: double.infinity,
+                  height: 118.5.h,
+                  width: double.infinity.w,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -89,24 +90,23 @@ class _ProductItemState extends State<ProductItem> {
                 ? InkWell(
               onTap: increaseQuantity,
               child: Container(
-                height: 36,
+                height: 25.h,
                 decoration: BoxDecoration(
                   color: AppColor.pink1,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
-                  child: Icon(Icons.add, color: Colors.white),
+                  child: Icon(Icons.add_circle_outline, color: Colors.yellowAccent),
                 ),
               ),
-            )
-                : Container(
-              height: 36,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: AppColor.pink1, width: 1.5),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
+            ): Container(
+                height: 25.h,
+                decoration: BoxDecoration(
+                  color: AppColor.yellowAccent,
+                  border: Border.all(color: AppColor.pink1, width: 1.5.w),
+                  borderRadius: BorderRadius.circular(1),
+                ),
+                child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
