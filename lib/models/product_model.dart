@@ -5,6 +5,7 @@ class ProductModel {
   final double regularPrice;
   final double memberPrice;
   final int discount;
+  final int total_quantity;
   int quantity;
 
   ProductModel({
@@ -14,6 +15,7 @@ class ProductModel {
     required this.regularPrice,
     required this.memberPrice,
     required this.discount,
+    required this.total_quantity,
     this.quantity = 0
   });
 
@@ -26,6 +28,7 @@ class ProductModel {
       regularPrice: double.parse(map['regularPrice'].toString()),
       memberPrice: double.parse(map['memberPrice'].toString()),
       discount: int.parse(map['discount'].toString()),
+      total_quantity: int.parse(map['total_quantity'].toString()),
     );
   }
 
