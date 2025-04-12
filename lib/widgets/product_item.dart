@@ -25,14 +25,16 @@ class _ProductItemState extends State<ProductItem> {
     quantity = widget.product.quantity;
   }
 
-  /*void increaseQuantity() {
-    setState(() {
-      quantity++;
-    });
-    widget.product.quantity = quantity;
-    widget.onTap();
-  }*/
   void increaseQuantity() {
+    if (quantity < widget.product.total_quantity) {
+      setState(() {
+        quantity++;
+      });
+      widget.product.quantity = quantity;
+      widget.onTap();
+    }
+  }
+  /*void increaseQuantity() {
     if (quantity < widget.product.total_quantity) {
       setState(() {
         quantity++;
@@ -50,7 +52,7 @@ class _ProductItemState extends State<ProductItem> {
         ),
       );
     }
-  }
+  }*/
 
 
   void decreaseQuantity() {
@@ -159,19 +161,26 @@ class _ProductItemState extends State<ProductItem> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColor.pink1,
+                        color: quantity >= widget.product.total_quantity
+                            ? Colors.grey.shade300 // greyed out if disabled
+                            : AppColor.pink1,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12),
                           bottomLeft: Radius.circular(12),
                         ),
                       ),
-                      child: IconButton(
-                        onPressed: increaseQuantity,
-                        icon: const Icon(Icons.add_circle_outline, color: AppColor.yellowAccent),
-                        iconSize: 20,
-                        constraints: const BoxConstraints(),
-                        padding: EdgeInsets.zero,
-                      ),
+                        child: IconButton(
+                          onPressed: quantity >= widget.product.total_quantity ? null : increaseQuantity,
+                          icon: Icon(
+                            Icons.add_circle_outline,
+                            color: quantity >= widget.product.total_quantity
+                                ? Colors.grey.shade500
+                                : AppColor.yellowAccent,
+                          ),
+                          iconSize: 20,
+                          constraints: const BoxConstraints(),
+                          padding: EdgeInsets.zero,
+                        ),
                     ),
                   ),
                 ],
