@@ -24,10 +24,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _appBarsearchController = TextEditingController();
   final ApiService apiService = ApiService();
 
-  // 🔧 Step 1: Add product lists
   List<ProductModel> allProducts = [];
   List<ProductModel> filteredProducts = [];
-  List<ProductModel> displayedProducts = []; // This will store the products to be shown (5 products or filtered)
+  List<ProductModel> displayedProducts = [];
 
   @override
   void dispose() {
@@ -52,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _isSearching = value;
               if (!value) {
                 _customSearchController.clear();
-                // Reset the displayed products to show the first 5
+                filteredProducts = [];
                 displayedProducts = allProducts.take(5).toList();
               }
             });
@@ -121,27 +120,29 @@ class _MyHomePageState extends State<MyHomePage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator(color: AppColor.pink1));
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(child: Text('Error: \${snapshot.error}'));
               } else if (snapshot.hasData) {
                 allProducts = snapshot.data!;
-                // Initially set displayedProducts to only the first 5
                 if (displayedProducts.isEmpty) {
                   displayedProducts = allProducts.take(5).toList();
                 }
 
                 return Column(
                   children: [
-                    // 🔧 Step 3: Add working CustomSearchBar
                     CustomSearchBar(
                       controller: _customSearchController,
+                      onChanged: (value) {
+                        if (value.isEmpty) {
+                          setState(() {
+                            displayedProducts = allProducts.take(5).toList();
+                          });
+                        }
+                      },
                       onSubmitted: (value) {
                         setState(() {
-                          // Search across all products
                           filteredProducts = allProducts
                               .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
                               .toList();
-
-                          // If no search results, show the first 5 products
                           if (filteredProducts.isEmpty) {
                             displayedProducts = allProducts.take(5).toList();
                           } else {
@@ -150,7 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       },
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: Row(
@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: GridView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.all(8),
-                        itemCount: displayedProducts.length, // show filtered or first 5 results
+                        itemCount: displayedProducts.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1,
                           mainAxisExtent: 140,
