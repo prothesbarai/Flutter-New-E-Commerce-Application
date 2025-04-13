@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data_api/api_service.dart';
 import '../models/product_model.dart';
 import '../utils/AppColor.dart';
-import '../utils/AppString.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_search_bar.dart';
 import '../widgets/product_item.dart';
-import 'CartPage.dart';
 import 'EditProfilePage.dart';
 import 'ReusableAllProductsPage.dart';
 
@@ -111,25 +110,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 return Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25.0),
-                      child: TextField(
-                        style: TextStyle(fontSize: 14.sp),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                          prefixIcon: Icon(Icons.search, color: AppColor.pink1, size: 20),
-                          hintText: AppString.searchHint,
-                          hintStyle: TextStyle(fontSize: 14.sp),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.pink1),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.pink1),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                      ),
+                    CustomSearchBar(
+                      controller: _searchController,
+                      onChanged: (value) {
+                        print("Searching: $value");
+                      },
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
