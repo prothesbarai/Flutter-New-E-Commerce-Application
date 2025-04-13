@@ -1,6 +1,7 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import '../models/product_model.dart';
+import '../utils/cart_helper.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductModel product;
@@ -32,6 +33,14 @@ class _ProductItemState extends State<ProductItem> {
       });
       widget.product.quantity = quantity;
       widget.onTap();
+      //Auto add/update to cart
+      CartHelper.addOrUpdateCartItem(
+        id: widget.product.id,
+        name: widget.product.title,
+        image: widget.product.imageUrl,
+        price: widget.product.memberPrice,
+        quantity: quantity,
+      );
     }
   }
   /*void increaseQuantity() {
@@ -61,6 +70,14 @@ class _ProductItemState extends State<ProductItem> {
     });
     widget.product.quantity = quantity;
     widget.onTap();
+    //Auto remove/update from cart
+    CartHelper.addOrUpdateCartItem(
+      id: widget.product.id,
+      name: widget.product.title,
+      image: widget.product.imageUrl,
+      price: widget.product.memberPrice,
+      quantity: quantity,
+    );
   }
 
   @override

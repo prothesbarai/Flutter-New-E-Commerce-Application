@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return ExitConfirmationWrapper(
       title: AppString.exitTitle,
       message: AppString.exitMessage,
-      confirmText: AppString.exitConFrimBtn,
+      confirmText: AppString.exitConfrimBtn,
       cancelText: AppString.exitCancelBtn,
       child: Scaffold(
         appBar: CustomAppBar(

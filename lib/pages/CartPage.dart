@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import '../models/product_model.dart'; //Product model import
 
 class CartPage extends StatelessWidget {
   final Box cartBox = Hive.box('localStorage');
 
   CartPage({super.key});
+
+  // Add this method to sync price with latest products (from database if you want)
+  void syncCartPricesWithProductList(List<ProductModel> latestProducts) {
+    for (var key in cartBox.keys) {
+      var item = cartBox.get(key);
+      var matchedProduct = latestProducts.firstWhere(
+            (p) => p.id == key,
+        orElse: () => ProductModel(id: -1, title: '', imageUrl: '', regularPrice: 0, memberPrice: 0, discount: 0, quantity: 0, total_quantity: 0),
+      );
+
+      if (matchedProduct.id != -1 && item['price'] != matchedProduct.memberPrice) {
+        item['price'] = matchedProduct.memberPrice;
+        cartBox.put(key, item);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +101,6 @@ class CartPage extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Checkout functionality or navigation
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Proceeding to checkout...')),
                           );

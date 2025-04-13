@@ -8,6 +8,6 @@ class AppString{
   static const String searchHint = "Search...";
   static const String exitTitle = "Are you sure?";
   static const String exitMessage = "Are you sure?";
-  static const String exitConFrimBtn = "Yes";
+  static const String exitConfrimBtn = "Yes";
   static const String exitCancelBtn = "No";
 }
