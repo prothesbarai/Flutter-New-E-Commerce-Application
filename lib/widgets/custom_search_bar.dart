@@ -6,12 +6,14 @@ import '../utils/AppString.dart';
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted; // ✅ New parameter added
   final String? hintText;
 
   const CustomSearchBar({
     Key? key,
     this.controller,
     this.onChanged,
+    this.onSubmitted, // ✅ Add this in constructor
     this.hintText,
   }) : super(key: key);
 
@@ -22,6 +24,7 @@ class CustomSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        onSubmitted: onSubmitted, // ✅ Now supported
         style: TextStyle(fontSize: 14.sp),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),

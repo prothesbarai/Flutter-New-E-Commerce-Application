@@ -10,37 +10,54 @@ import '../widgets/product_item.dart';
 import 'EditProfilePage.dart';
 import 'ReusableAllProductsPage.dart';
 
-// State Full Widget For My Home Page
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   static const String email = "example123@gmail.com";
   static const String profileName = "Profile Name";
   bool _isSearching = false;
-  final TextEditingController _searchController = TextEditingController();
-  // Example API service instance (you can replace this with your actual service)
-  final ApiService apiService = ApiService();  // This is your API service.
+  final TextEditingController _customSearchController = TextEditingController();
+  final TextEditingController _appBarsearchController = TextEditingController();
+  final ApiService apiService = ApiService();
+
+  // 🔧 Step 1: Add product lists
+  List<ProductModel> allProducts = [];
+  List<ProductModel> filteredProducts = [];
+  List<ProductModel> displayedProducts = []; // This will store the products to be shown (5 products or filtered)
+
+  @override
+  void dispose() {
+    _customSearchController.dispose();
+    _appBarsearchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ExitConfirmationWrapper( // BackPress Exit Widget
+    return ExitConfirmationWrapper(
       title: 'Are you sure?',
       message: 'Do you want to exit the app?',
       confirmText: 'Yes',
       cancelText: 'No',
       child: Scaffold(
-          appBar: CustomAppBar(
-            isSearching: _isSearching,
-            searchController: _searchController,
-            onSearchToggle: (value) {
-              setState(() {
-                _isSearching = value;
-              });
-            },
-          ),
+        appBar: CustomAppBar(
+          isSearching: _isSearching,
+          searchController: _appBarsearchController,
+          onSearchToggle: (value) {
+            setState(() {
+              _isSearching = value;
+              if (!value) {
+                _customSearchController.clear();
+                // Reset the displayed products to show the first 5
+                displayedProducts = allProducts.take(5).toList();
+              }
+            });
+          },
+        ),
         drawer: Drawer(
           child: Container(
             padding: EdgeInsets.all(0),
@@ -99,23 +116,41 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: SafeArea(
           child: FutureBuilder<List<ProductModel>>(
-            future: ApiService.fetchProducts(),  // Fetch data from the API
+            future: ApiService.fetchProducts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator(color: AppColor.pink1,));
+                return Center(child: CircularProgressIndicator(color: AppColor.pink1));
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
-                final newArrivals = snapshot.data!.take(5).toList();  // Limit to 5 products
+                allProducts = snapshot.data!;
+                // Initially set displayedProducts to only the first 5
+                if (displayedProducts.isEmpty) {
+                  displayedProducts = allProducts.take(5).toList();
+                }
 
                 return Column(
                   children: [
+                    // 🔧 Step 3: Add working CustomSearchBar
                     CustomSearchBar(
-                      controller: _searchController,
-                      onChanged: (value) {
-                        print("Searching: $value");
+                      controller: _customSearchController,
+                      onSubmitted: (value) {
+                        setState(() {
+                          // Search across all products
+                          filteredProducts = allProducts
+                              .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
+                              .toList();
+
+                          // If no search results, show the first 5 products
+                          if (filteredProducts.isEmpty) {
+                            displayedProducts = allProducts.take(5).toList();
+                          } else {
+                            displayedProducts = filteredProducts;
+                          }
+                        });
                       },
                     ),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: Row(
@@ -147,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: GridView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.all(8),
-                        itemCount: newArrivals.length,  // Use the newArrivals list
+                        itemCount: displayedProducts.length, // show filtered or first 5 results
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1,
                           mainAxisExtent: 140,
@@ -155,13 +190,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisSpacing: 8,
                         ),
                         itemBuilder: (context, index) {
-                          final product = newArrivals[index];  // Access the product
-
+                          final product = displayedProducts[index];
                           return ProductItem(
                             product: product,
-                            onTap: () {
-                              // Handle add to cart logic
-                            },
+                            onTap: () {},
                           );
                         },
                       ),
@@ -181,23 +213,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.category, color: Colors.yellowAccent),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.card_membership, color: Colors.yellowAccent),
-                onPressed: () {},
-              ),
+              IconButton(icon: Icon(Icons.category, color: Colors.yellowAccent), onPressed: () {}),
+              IconButton(icon: Icon(Icons.card_membership, color: Colors.yellowAccent), onPressed: () {}),
               SizedBox(width: 40.w),
-              IconButton(
-                icon: Icon(Icons.chat, color: Colors.yellowAccent),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.person, color: Colors.yellowAccent),
-                onPressed: () {},
-              ),
+              IconButton(icon: Icon(Icons.chat, color: Colors.yellowAccent), onPressed: () {}),
+              IconButton(icon: Icon(Icons.person, color: Colors.yellowAccent), onPressed: () {}),
             ],
           ),
         ),
@@ -224,4 +244,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
