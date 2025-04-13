@@ -1,6 +1,8 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../models/product_model.dart';
+import 'CartPage.dart';
 import '../utils/cart_helper.dart';
 
 class ProductItem extends StatefulWidget {
@@ -22,8 +24,19 @@ class _ProductItemState extends State<ProductItem> {
 
   @override
   void initState() {
+    quantity = 0; // Initialize quantity to 0
+    _syncQuantityFromCart();
     super.initState();
-    quantity = widget.product.quantity;
+  }
+
+  void _syncQuantityFromCart() {
+    final box = Hive.box('localStorage');
+    final item = box.get(widget.product.id);
+    if (item != null && item['quantity'] != quantity) {
+      setState(() {
+        quantity = item['quantity'];
+      });
+    }
   }
 
   void increaseQuantity() {
@@ -32,9 +45,8 @@ class _ProductItemState extends State<ProductItem> {
         quantity++;
       });
       widget.product.quantity = quantity;
-      widget.onTap();
-      //Auto add/update to cart
-      CartHelper.addOrUpdateCartItem(
+      widget.onTap(); // Refresh UI after quantity update
+      CartHelper.addOrUpdateCartItem( // Update the cart immediately
         id: widget.product.id,
         name: widget.product.title,
         image: widget.product.imageUrl,
@@ -43,42 +55,39 @@ class _ProductItemState extends State<ProductItem> {
       );
     }
   }
-  /*void increaseQuantity() {
-    if (quantity < widget.product.total_quantity) {
-      setState(() {
-        quantity++;
-      });
-      widget.product.quantity = quantity;
-      widget.onTap();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('স্টকে মাত্র ${widget.product.total_quantity} টি পণ্য আছে।'),
-          duration: Duration(seconds: 2),
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(12), // Optional: margin for floating effect
-        ),
-      );
-    }
-  }*/
-
 
   void decreaseQuantity() {
-    setState(() {
-      if (quantity > 0) quantity--;
-    });
-    widget.product.quantity = quantity;
-    widget.onTap();
-    //Auto remove/update from cart
-    CartHelper.addOrUpdateCartItem(
-      id: widget.product.id,
-      name: widget.product.title,
-      image: widget.product.imageUrl,
-      price: widget.product.memberPrice,
-      quantity: quantity,
-    );
+    if (quantity > 0) {
+      setState(() {
+        quantity--;
+      });
+      widget.product.quantity = quantity;
+      widget.onTap(); // Refresh UI after quantity update
+      CartHelper.addOrUpdateCartItem( // Update the cart immediately
+        id: widget.product.id,
+        name: widget.product.title,
+        image: widget.product.imageUrl,
+        price: widget.product.memberPrice,
+        quantity: quantity,
+      );
+    }
   }
+
+  void navigateToCartPage() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CartPage(latestProducts: [ ]),
+      ),
+    );
+
+    if (result == true) {
+      setState(() {
+        _syncQuantityFromCart();
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +100,6 @@ class _ProductItemState extends State<ProductItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Product Image + Discount Tag
           Stack(
             children: [
               ClipRRect(
@@ -120,8 +128,6 @@ class _ProductItemState extends State<ProductItem> {
               ),
             ],
           ),
-
-          // Add/Remove Button Section
           Container(
             padding: const EdgeInsets.all(8),
             child: quantity == 0
@@ -179,33 +185,31 @@ class _ProductItemState extends State<ProductItem> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: quantity >= widget.product.total_quantity
-                            ? Colors.grey.shade300 // greyed out if disabled
+                            ? Colors.grey.shade300
                             : AppColor.pink1,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12),
                           bottomLeft: Radius.circular(12),
                         ),
                       ),
-                        child: IconButton(
-                          onPressed: quantity >= widget.product.total_quantity ? null : increaseQuantity,
-                          icon: Icon(
-                            Icons.add_circle_outline,
-                            color: quantity >= widget.product.total_quantity
-                                ? Colors.grey.shade500
-                                : AppColor.yellowAccent,
-                          ),
-                          iconSize: 20,
-                          constraints: const BoxConstraints(),
-                          padding: EdgeInsets.zero,
+                      child: IconButton(
+                        onPressed: quantity >= widget.product.total_quantity ? null : increaseQuantity,
+                        icon: Icon(
+                          Icons.add_circle_outline,
+                          color: quantity >= widget.product.total_quantity
+                              ? Colors.grey.shade500
+                              : AppColor.yellowAccent,
                         ),
+                        iconSize: 20,
+                        constraints: const BoxConstraints(),
+                        padding: EdgeInsets.zero,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-
-          // Product Info
           Container(
             padding: const EdgeInsets.all(8),
             color: Colors.blueGrey.shade50,
@@ -236,10 +240,10 @@ class _ProductItemState extends State<ProductItem> {
                     Icon(Icons.star, color: AppColor.pink1, size: 14),
                     Icon(Icons.star, color: AppColor.pink1, size: 14),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

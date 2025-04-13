@@ -7,7 +7,7 @@ import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_search_bar.dart';
-import '../widgets/product_item.dart';
+import 'newArrivalsProductItems.dart';
 import 'EditProfilePage.dart';
 import 'ReusableAllProductsPage.dart';
 

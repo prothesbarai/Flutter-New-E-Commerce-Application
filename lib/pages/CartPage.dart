@@ -45,6 +45,14 @@ class _CartPageState extends State<CartPage> {
       appBar: AppBar(
         title: const Text('🛒 My Cart'),
         centerTitle: true,
+
+        // UPDATED: Back করলে result পাঠাবে
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, true); // Back result
+          },
+        ),
       ),
       body: ValueListenableBuilder(
         valueListenable: cartBox.listenable(),
@@ -171,7 +179,7 @@ class _CartPageState extends State<CartPage> {
                             const SnackBar(content: Text('Process Checkout.....')),
                           );
                         },
-                        child: Text('Checkout', style: TextStyle(fontSize: 16.sp,color: AppColor.white)),
+                        child: Text('Checkout', style: TextStyle(fontSize: 16.sp, color: AppColor.white)),
                       ),
                     ),
                   ],

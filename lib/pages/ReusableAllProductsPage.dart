@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data_api/api_service.dart';
 import '../models/product_model.dart';
-import '../widgets/product_item.dart';
+import 'newArrivalsProductItems.dart';
 
 class AllProductsPage extends StatefulWidget {
   final String title;
