@@ -5,6 +5,7 @@ import '../data_api/api_service.dart';
 import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../utils/AppString.dart';
+import '../widgets/custom_app_bar.dart';
 import '../widgets/product_item.dart';
 import 'CartPage.dart';
 import 'EditProfilePage.dart';
@@ -20,8 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const String email = "example123@gmail.com";
   static const String profileName = "Profile Name";
   bool _isSearching = false;
-  TextEditingController _searchingController = TextEditingController();
-
+  final TextEditingController _searchController = TextEditingController();
   // Example API service instance (you can replace this with your actual service)
   final ApiService apiService = ApiService();  // This is your API service.
 
@@ -33,92 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
       confirmText: 'Yes',
       cancelText: 'No',
       child: Scaffold(
-        appBar: AppBar(
-          title: _isSearching
-              ? TextField(
-            controller: _searchingController,
-            autofocus: true,
-            cursorHeight: 16.h,
-            cursorWidth: 1.5.w,
-            decoration: InputDecoration(
-              hintText: AppString.searchHint,
-              hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14.sp),
-              isDense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-            ),
-            style: TextStyle(color: Colors.black),
-            onChanged: (value) {},
-          )
-              : Image.asset('assets/images/logos.png', height: 30.h),
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColor.bodyColor, AppColor.bodyColor],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+          appBar: CustomAppBar(
+            isSearching: _isSearching,
+            searchController: _searchController,
+            onSearchToggle: (value) {
+              setState(() {
+                _isSearching = value;
+              });
+            },
           ),
-          leading: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.menu, color: AppColor.pink1),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                setState(() {
-                  _isSearching = !_isSearching;
-                  if (!_isSearching) {
-                    _searchingController.clear();
-                  }
-                });
-              },
-              icon: Icon(
-                _isSearching ? Icons.close : Icons.search_rounded,
-                color: AppColor.pink1,
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.shopping_cart, color: AppColor.pink1),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CartPage()),
-                );
-              },
-            ),
-            PopupMenuButton<String>(
-              icon: Icon(Icons.more_vert, color: AppColor.pink1),
-              onSelected: (value) {
-                print("Selected: $value");
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    value: 'settings',
-                    child: Text(AppString.setting),
-                  ),
-                  PopupMenuItem(
-                    value: 'logout',
-                    child: Text(AppString.logout),
-                  ),
-                ];
-              },
-            ),
-          ],
-        ),
         drawer: Drawer(
           child: Container(
             padding: EdgeInsets.all(0),
@@ -180,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             future: ApiService.fetchProducts(),  // Fetch data from the API
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(color: AppColor.pink1,));
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
