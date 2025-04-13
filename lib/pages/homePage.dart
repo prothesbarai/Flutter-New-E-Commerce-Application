@@ -1,3 +1,4 @@
+import 'package:AppStore/utils/AppString.dart';
 import 'package:AppStore/widgets/ExitConfirmationWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ProductModel> filteredProducts = [];
   List<ProductModel> displayedProducts = [];
 
+  // Avoid Memory Lake
   @override
   void dispose() {
     _customSearchController.dispose();
@@ -38,10 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return ExitConfirmationWrapper(
-      title: 'Are you sure?',
-      message: 'Do you want to exit the app?',
-      confirmText: 'Yes',
-      cancelText: 'No',
+      title: AppString.exitTitle,
+      message: AppString.exitMessage,
+      confirmText: AppString.exitConFrimBtn,
+      cancelText: AppString.exitCancelBtn,
       child: Scaffold(
         appBar: CustomAppBar(
           isSearching: _isSearching,
