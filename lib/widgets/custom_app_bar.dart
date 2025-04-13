@@ -39,8 +39,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         style: TextStyle(color: Colors.black),
         onChanged: (value) {},
-      )
-          : Image.asset('assets/images/logos.png', height: 30.h),
+      ):SizedBox(
+        height: 30.h,
+        child: Image.asset('assets/images/logos.png'),
+      ),
       automaticallyImplyLeading: false,
       flexibleSpace: Container(
         decoration: BoxDecoration(
