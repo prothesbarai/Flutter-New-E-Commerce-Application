@@ -78,14 +78,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CartPage()),
+              MaterialPageRoute(builder: (context) => CartPage(latestProducts: [],)),
             );
           },
         ),
         PopupMenuButton<String>(
           icon: Icon(Icons.more_vert, color: AppColor.pink1),
           onSelected: (value) {
-            print("Selected: $value");
+            if (value == 'settings') {
+              /*Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );*/
+            } else if (value == 'logout') {
+              Navigator.pushReplacementNamed(context, '/login');
+            }
           },
           itemBuilder: (BuildContext context) {
             return [
