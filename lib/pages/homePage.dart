@@ -3,6 +3,7 @@ import 'package:AppStore/widgets/ExitConfirmationWrapper.dart';
 import 'package:AppStore/widgets/customBottomNavBar.dart';
 import 'package:AppStore/widgets/customDrawerWidget.dart';
 import 'package:AppStore/widgets/customFloatingActionButton.dart';
+import 'package:AppStore/widgets/customHomePageProductDesign.dart';
 import 'package:AppStore/widgets/customHomePageProductTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,6 @@ import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_search_bar.dart';
-import 'newArrivalsAllProductItems.dart';
 import 'ReusableAllProductsPage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -101,93 +101,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                       CustomHomePageProductTitle(title: "New Arrivals", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      SizedBox(
-                        height: 243.h,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: displayedProducts.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisExtent: 140,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemBuilder: (context, index) {
-                            final product = displayedProducts[index];
-                            return ProductItem(
-                              product: product,
-                              onTap: () {},
-                            );
-                          },
-                        ),
-                      ),
+                      Customhomepageproductdesign(displayedProducts: displayedProducts),
                       CustomHomePageProductTitle(title: "Indian Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      SizedBox(
-                        height: 243.h,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: displayedProducts.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisExtent: 140,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemBuilder: (context, index) {
-                            final product = displayedProducts[index];
-                            return ProductItem(
-                              product: product,
-                              onTap: () {},
-                            );
-                          },
-                        ),
-                      ),
+                      Customhomepageproductdesign(displayedProducts: displayedProducts),
                       CustomHomePageProductTitle(title: "America Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      SizedBox(
-                        height: 243.h,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: displayedProducts.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisExtent: 140,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemBuilder: (context, index) {
-                            final product = displayedProducts[index];
-                            return ProductItem(
-                              product: product,
-                              onTap: () {},
-                            );
-                          },
-                        ),
-                      ),
+                      Customhomepageproductdesign(displayedProducts: displayedProducts),
                       CustomHomePageProductTitle(title: "Canada Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      SizedBox(
-                        height: 243.h,
-                        child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.all(8),
-                          itemCount: displayedProducts.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisExtent: 140,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemBuilder: (context, index) {
-                            final product = displayedProducts[index];
-                            return ProductItem(
-                              product: product,
-                              onTap: () {},
-                            );
-                          },
-                        ),
-                      ),
+                      Customhomepageproductdesign(displayedProducts: displayedProducts),
 
                       SizedBox(height: 50.h,)
                     ],
