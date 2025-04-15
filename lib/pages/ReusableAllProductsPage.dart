@@ -1,14 +1,15 @@
+import 'package:AppStore/widgets/customBottomNavBar.dart';
+import 'package:AppStore/widgets/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 import '../data_api/api_service.dart';
 import '../models/product_model.dart';
+import '../widgets/custom_app_bar.dart';
 import 'newArrivalsAllProductItems.dart';
 
 class AllProductsPage extends StatefulWidget {
-  final String title;
 
   const AllProductsPage({
     super.key,
-    required this.title,
   });
 
   @override
@@ -23,11 +24,40 @@ class _AllProductsPageState extends State<AllProductsPage> {
     super.initState();
     futureProducts = ApiService.fetchProducts();
   }
-
+  bool _isSearching = false;
+  final TextEditingController _customSearchController1 = TextEditingController();
+  final TextEditingController _appBarsearchController2= TextEditingController();
+  List<ProductModel> allProducts = [];
+  List<ProductModel> filteredProducts = [];
+  List<ProductModel> displayedProducts = [];
+  // Avoid Memory Lake
+  @override
+  void dispose() {
+    _customSearchController1.dispose();
+    _appBarsearchController2.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: CustomAppBar(
+        isSearching: _isSearching,
+        searchController: _appBarsearchController2,
+        onSearchToggle: (value) {
+          setState(() {
+            _isSearching = value;
+            if (!value) {
+              _customSearchController1.clear();
+              filteredProducts = [];
+              displayedProducts = allProducts.take(5).toList();
+            }
+          });
+        },
+      ),
+      resizeToAvoidBottomInset: false,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Customfloatingactionbutton(isHome: false),
+      bottomNavigationBar: Custombottomnavbar(),
       body: FutureBuilder<List<ProductModel>>(
         future: futureProducts,
         builder: (context, snapshot) {

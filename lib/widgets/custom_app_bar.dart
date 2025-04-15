@@ -20,6 +20,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: IconThemeData(
+        color: AppColor.pink1,
+      ),
       title: isSearching
           ? TextField(
         controller: searchController,
@@ -44,7 +47,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         height: 30.h,
         child: Image.asset('assets/images/logos.png'),
       ),
-      automaticallyImplyLeading: false,
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -52,14 +54,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
-        ),
-      ),
-      leading: Builder(
-        builder: (context) => IconButton(
-          icon: Icon(Icons.menu, color: AppColor.pink1),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
         ),
       ),
       actions: [
