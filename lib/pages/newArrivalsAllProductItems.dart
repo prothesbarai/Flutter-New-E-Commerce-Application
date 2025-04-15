@@ -106,14 +106,14 @@ class _ProductItemState extends State<ProductItem> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.network(
                   widget.product.imageUrl,
-                  height: 135,
+                  height: 110,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                top: 8,
-                left: 8,
+                top: 0,
+                left: 0,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
@@ -129,7 +129,7 @@ class _ProductItemState extends State<ProductItem> {
             ],
           ),
           Container(
-            padding: const EdgeInsets.all(8),
+            // padding: const EdgeInsets.all(8), // Button Padding
             child: quantity == 0
                 ? InkWell(
               onTap: increaseQuantity,
@@ -137,7 +137,7 @@ class _ProductItemState extends State<ProductItem> {
                 height: 36,
                 decoration: BoxDecoration(
                   color: AppColor.pink1,
-                  borderRadius: BorderRadius.circular(12),
+                  // borderRadius: BorderRadius.circular(12), // Button Border Circular
                 ),
                 child: const Center(
                   child: Icon(Icons.add_circle_outline, color: Colors.yellowAccent),

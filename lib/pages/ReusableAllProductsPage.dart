@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data_api/api_service.dart';
 import '../models/product_model.dart';
-import 'newArrivalsProductItems.dart';
+import 'newArrivalsAllProductItems.dart';
 
 class AllProductsPage extends StatefulWidget {
   final String title;
@@ -44,11 +44,11 @@ class _AllProductsPageState extends State<AllProductsPage> {
             padding: const EdgeInsets.all(16),
             itemCount: products.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
+              crossAxisCount: 3,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
               childAspectRatio: 0.6,
-              mainAxisExtent: 315,
+              mainAxisExtent: 272,
             ),
             itemBuilder: (context, index) {
               final product = products[index];

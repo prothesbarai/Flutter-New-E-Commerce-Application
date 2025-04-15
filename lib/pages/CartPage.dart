@@ -1,4 +1,6 @@
 import 'package:AppStore/utils/AppColor.dart';
+import 'package:AppStore/widgets/customBottomNavBar.dart';
+import 'package:AppStore/widgets/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -42,6 +44,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: const Text('🛒 My Cart'),
         centerTitle: true,
@@ -55,6 +58,10 @@ class _CartPageState extends State<CartPage> {
 
 
       ),
+      bottomNavigationBar: Custombottomnavbar(),
+      resizeToAvoidBottomInset: false,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Customfloatingactionbutton(isHome: false,),
       body: SafeArea(
         child: ValueListenableBuilder(
           valueListenable: cartBox.listenable(),
@@ -152,7 +159,7 @@ class _CartPageState extends State<CartPage> {
 
                 // Bottom Bar
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 20),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                     border: const Border(top: BorderSide(color: Colors.grey)),
@@ -177,8 +184,23 @@ class _CartPageState extends State<CartPage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           ),
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Process Checkout.....')),
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  Navigator.of(context).pop(); // 2 সেকেন্ড পরে dialog বন্ধ
+                                });
+                                return AlertDialog(
+                                  alignment: Alignment.center,
+                                  backgroundColor: Colors.black87,
+                                  content: const Text(
+                                    'Process Checkout.....',
+                                    style: TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              },
                             );
                           },
                           child: Text('Checkout', style: TextStyle(fontSize: 16.sp, color: AppColor.white)),

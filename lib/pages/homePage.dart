@@ -10,7 +10,7 @@ import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_search_bar.dart';
-import 'newArrivalsProductItems.dart';
+import 'newArrivalsAllProductItems.dart';
 import 'ReusableAllProductsPage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: 277.h,
+                      height: 243.h,
                       child: GridView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.all(8),
@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomNavigationBar: Custombottomnavbar(),
         resizeToAvoidBottomInset: false,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Customfloatingactionbutton(),
+        floatingActionButton: Customfloatingactionbutton(isHome: true,),
       ),
     );
   }
