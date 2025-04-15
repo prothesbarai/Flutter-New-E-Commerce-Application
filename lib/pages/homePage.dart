@@ -3,6 +3,7 @@ import 'package:AppStore/widgets/ExitConfirmationWrapper.dart';
 import 'package:AppStore/widgets/customBottomNavBar.dart';
 import 'package:AppStore/widgets/customDrawerWidget.dart';
 import 'package:AppStore/widgets/customFloatingActionButton.dart';
+import 'package:AppStore/widgets/customHomePageProductTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data_api/api_service.dart';
@@ -74,78 +75,123 @@ class _MyHomePageState extends State<MyHomePage> {
                   displayedProducts = allProducts.take(5).toList();
                 }
 
-                return Column(
-                  children: [
-                    CustomSearchBar(
-                      controller: _customSearchController,
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          setState(() {
-                            displayedProducts = allProducts.take(5).toList();
-                          });
-                        }
-                      },
-                      onSubmitted: (value) {
-                        setState(() {
-                          filteredProducts = allProducts
-                              .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
-                              .toList();
-                          if (filteredProducts.isEmpty) {
-                            displayedProducts = allProducts.take(5).toList();
-                          } else {
-                            displayedProducts = filteredProducts;
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CustomSearchBar(
+                        controller: _customSearchController,
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              displayedProducts = allProducts.take(5).toList();
+                            });
                           }
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "New Arrivals",
-                            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => AllProductsPage()),
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Text("All Products", style: TextStyle(fontSize: 14.sp)),
-                                Icon(Icons.arrow_forward_ios, size: 14),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 243.h,
-                      child: GridView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.all(8),
-                        itemCount: displayedProducts.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          mainAxisExtent: 140,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                        itemBuilder: (context, index) {
-                          final product = displayedProducts[index];
-                          return ProductItem(
-                            product: product,
-                            onTap: () {},
-                          );
+                        },
+                        onSubmitted: (value) {
+                          setState(() {
+                            filteredProducts = allProducts
+                                .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
+                                .toList();
+                            if (filteredProducts.isEmpty) {
+                              displayedProducts = allProducts.take(5).toList();
+                            } else {
+                              displayedProducts = filteredProducts;
+                            }
+                          });
                         },
                       ),
-                    ),
-                  ],
+                      CustomHomePageProductTitle(title: "New Arrivals", allItemsName: "All Products", pageRoute: AllProductsPage()),
+                      SizedBox(
+                        height: 243.h,
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.all(8),
+                          itemCount: displayedProducts.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 140,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final product = displayedProducts[index];
+                            return ProductItem(
+                              product: product,
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      ),
+                      CustomHomePageProductTitle(title: "Indian Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
+                      SizedBox(
+                        height: 243.h,
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.all(8),
+                          itemCount: displayedProducts.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 140,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final product = displayedProducts[index];
+                            return ProductItem(
+                              product: product,
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      ),
+                      CustomHomePageProductTitle(title: "America Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
+                      SizedBox(
+                        height: 243.h,
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.all(8),
+                          itemCount: displayedProducts.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 140,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final product = displayedProducts[index];
+                            return ProductItem(
+                              product: product,
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      ),
+                      CustomHomePageProductTitle(title: "Canada Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
+                      SizedBox(
+                        height: 243.h,
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.all(8),
+                          itemCount: displayedProducts.length,
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 140,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final product = displayedProducts[index];
+                            return ProductItem(
+                              product: product,
+                              onTap: () {},
+                            );
+                          },
+                        ),
+                      ),
+
+                      SizedBox(height: 50.h,)
+                    ],
+                  ),
                 );
               } else {
                 return Center(child: Text('No products available'));
