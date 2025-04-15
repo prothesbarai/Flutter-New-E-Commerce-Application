@@ -72,7 +72,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
 
             final products = snapshot.data!;
             return GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.only(top: 16, bottom: 60, left: 16, right: 16,), // New Arrivals All Product Page er Jonno
               itemCount: products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
