@@ -58,39 +58,41 @@ class _AllProductsPageState extends State<AllProductsPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Customfloatingactionbutton(isHome: false),
       bottomNavigationBar: Custombottomnavbar(),
-      body: FutureBuilder<List<ProductModel>>(
-        future: futureProducts,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No products found'));
-          }
+      body: SafeArea(
+        child: FutureBuilder<List<ProductModel>>(
+          future: futureProducts,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No products found'));
+            }
 
-          final products = snapshot.data!;
-          return GridView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: products.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 0.6,
-              mainAxisExtent: 272,
-            ),
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return ProductItem(
-                product: product,
-                onTap: () {
-                  // cart e add korar logic ekhane thakbe
-                },
-              );
-            },
-          );
-        },
+            final products = snapshot.data!;
+            return GridView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: products.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                childAspectRatio: 0.6,
+                mainAxisExtent: 272,
+              ),
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ProductItem(
+                  product: product,
+                  onTap: () {
+                    // cart e add korar logic ekhane thakbe
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
