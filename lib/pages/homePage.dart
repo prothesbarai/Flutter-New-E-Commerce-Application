@@ -1,5 +1,8 @@
 import 'package:AppStore/utils/AppString.dart';
 import 'package:AppStore/widgets/ExitConfirmationWrapper.dart';
+import 'package:AppStore/widgets/customBottomNavBar.dart';
+import 'package:AppStore/widgets/customDrawerWidget.dart';
+import 'package:AppStore/widgets/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data_api/api_service.dart';
@@ -8,7 +11,6 @@ import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_search_bar.dart';
 import 'newArrivalsProductItems.dart';
-import 'EditProfilePage.dart';
 import 'ReusableAllProductsPage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,8 +20,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const String email = "example123@gmail.com";
-  static const String profileName = "Profile Name";
   bool _isSearching = false;
   final TextEditingController _customSearchController = TextEditingController();
   final TextEditingController _appBarsearchController = TextEditingController();
@@ -59,62 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
         ),
-        drawer: Drawer(
-          child: Container(
-            padding: EdgeInsets.all(0),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [AppColor.pink1, AppColor.pink2, AppColor.pink3],
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight),
-            ),
-            child: ListView(
-              children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.transparent),
-                  child: Row(
-                    children: [
-                      Icon(Icons.account_circle, size: 78.0, color: AppColor.yellowAccent),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              profileName,
-                              style: TextStyle(color: AppColor.yellowAccent, fontSize: 20.sp, fontWeight: FontWeight.bold),
-                            ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Text(
-                                email,
-                                style: TextStyle(color: AppColor.yellowAccent, fontSize: 18.sp),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                _buildDrawerItem(Icons.edit, 'Edit Profile', context, EditProfilePage()),
-                _buildDrawerItem(Icons.layers, 'My Orders', context, EditProfilePage()),
-                Divider(color: AppColor.yellowAccent),
-                _buildDrawerItem(Icons.card_giftcard, 'Offers', context, EditProfilePage()),
-                _buildDrawerItem(Icons.category, 'All Categories', context, EditProfilePage()),
-                _buildDrawerItem(Icons.playlist_add_check, 'Shop by Concern', context, EditProfilePage()),
-                Divider(color: AppColor.yellowAccent),
-                _buildDrawerItem(Icons.shopping_bag, 'Shop by Brands', context, EditProfilePage()),
-                _buildDrawerItem(Icons.card_membership, 'Membership Cards', context, EditProfilePage()),
-                Divider(color: AppColor.yellowAccent),
-                _buildDrawerItem(Icons.location_on, 'Set a Delivery Point', context, EditProfilePage()),
-                _buildDrawerItem(Icons.map, 'Covered Areas', context, EditProfilePage()),
-                _buildDrawerItem(Icons.store, 'About Paikaree', context, EditProfilePage()),
-              ],
-            ),
-          ),
-        ),
+        drawer: Customdrawerwidget(),
         body: SafeArea(
           child: FutureBuilder<List<ProductModel>>(
             future: ApiService.fetchProducts(),
@@ -208,41 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          color: AppColor.pink3,
-          notchMargin: 8.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.category, color: Colors.yellowAccent), onPressed: () {}),
-              IconButton(icon: Icon(Icons.card_membership, color: Colors.yellowAccent), onPressed: () {}),
-              SizedBox(width: 40.w),
-              IconButton(icon: Icon(Icons.chat, color: Colors.yellowAccent), onPressed: () {}),
-              IconButton(icon: Icon(Icons.person, color: Colors.yellowAccent), onPressed: () {}),
-            ],
-          ),
-        ),
+        bottomNavigationBar: Custombottomnavbar(),
         resizeToAvoidBottomInset: false,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: AppColor.pink3,
-          shape: CircleBorder(),
-          child: Icon(Icons.add, color: Colors.yellowAccent),
-        ),
+        floatingActionButton: Customfloatingactionbutton(),
       ),
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage) {
-    return ListTile(
-      leading: Icon(icon, color: AppColor.yellowAccent),
-      title: Text(title, style: TextStyle(color: AppColor.yellowAccent, fontSize: 16.sp)),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => destinationPage));
-      },
-    );
-  }
 }

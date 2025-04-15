@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../pages/CartPage.dart';
 import '../utils/AppColor.dart';
 import '../utils/AppString.dart';
+import 'cardBadgesIconWidget.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isSearching;
@@ -75,12 +76,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             color: AppColor.pink1,
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.shopping_cart, color: AppColor.pink1),
-          onPressed: () {
+        CartIconWithBadge(
+          onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CartPage(latestProducts: [],)),
+              MaterialPageRoute(
+                builder: (_) => CartPage(latestProducts: []),
+              ),
             );
           },
         ),
