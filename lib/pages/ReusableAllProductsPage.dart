@@ -19,16 +19,40 @@ class AllProductsPage extends StatefulWidget {
 class _AllProductsPageState extends State<AllProductsPage> {
   late Future<List<ProductModel>> futureProducts;
 
+  // ✅  This Two Line AppBar search Icon Search Purpose
+  List<ProductModel> allProducts = [];
+  List<ProductModel> displayedProducts = [];
+
   @override
   void initState() {
     super.initState();
     futureProducts = ApiService.fetchProducts();
+
+    // ✅ Here Are Lines AppBar Search Icons Purpose
+    futureProducts.then((products) {
+      setState(() {
+        allProducts = products;
+        displayedProducts = products;
+      });
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(showSearchBox: false),
+      appBar: CustomAppBar(
+        showSearchBox: true,
+        // This Lines are AppBar search Icon Search Purpose
+        onSearch: (value) {
+          setState(() {
+            displayedProducts = allProducts
+                .where((product) =>
+                product.title.toLowerCase().contains(value.toLowerCase()))
+                .toList();
+          });
+        },
+      ),
       resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Customfloatingactionbutton(isHome: false),
@@ -48,7 +72,8 @@ class _AllProductsPageState extends State<AllProductsPage> {
             final products = snapshot.data!;
             return GridView.builder(
               padding: const EdgeInsets.only(top: 16, bottom: 60, left: 16, right: 16,), // New Arrivals All Product Page er Jonno
-              itemCount: products.length,
+              // itemCount: products.length,
+              itemCount: displayedProducts.length, // ✅ This line For SearchBar Search Icon
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 5,
@@ -57,7 +82,8 @@ class _AllProductsPageState extends State<AllProductsPage> {
                 mainAxisExtent: 272,
               ),
               itemBuilder: (context, index) {
-                final product = products[index];
+                final product = displayedProducts[index]; // ✅ This line For SearchBar Search Icon
+                //final product = products[index];
                 return ProductItem(
                   product: product,
                   onTap: () {

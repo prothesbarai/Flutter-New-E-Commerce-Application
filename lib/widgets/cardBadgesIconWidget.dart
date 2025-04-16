@@ -21,33 +21,37 @@ class CartIconWithBadge extends StatelessWidget {
           totalQuantity += item['quantity'] as int;
         }
 
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.shopping_cart,color: AppColor.pink1,),
-              onPressed: onTap,
-            ),
-            if (totalQuantity > 0)
-              Positioned(
-                right: 6,
-                top: 6,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '$totalQuantity',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
+        return SizedBox( // ✅ This avoids RenderBox error
+          height: kToolbarHeight,
+          width: kToolbarHeight,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.shopping_cart, color: AppColor.pink1),
+                onPressed: onTap,
+              ),
+              if (totalQuantity > 0)
+                Positioned(
+                  right: 6,
+                  top: 6,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      '$totalQuantity',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         );
       },
     );

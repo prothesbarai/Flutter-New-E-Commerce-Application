@@ -8,13 +8,11 @@ import 'cardBadgesIconWidget.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool showSearchBox;
   final Function(String)? onSearch;
-  final VoidCallback? onSearchClosed; // Optional: use if you want to notify parent on close
 
   const CustomAppBar({
     Key? key,
     required this.showSearchBox,
     this.onSearch,
-    this.onSearchClosed,
   }) : super(key: key);
 
   @override
@@ -54,11 +52,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
         cursorWidth: 1.5.w,
         decoration: InputDecoration(
           hintText: AppString.searchHint,
-          hintStyle:
-          TextStyle(color: Colors.grey[600], fontSize: 14.sp),
+          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14.sp),
           isDense: true,
-          contentPadding:
-          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -89,16 +85,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
               FocusScope.of(context).unfocus();
               setState(() {
                 _isSearching = !_isSearching;
+                if (!_isSearching) {
+                  _searchController.clear();
+                  if (widget.onSearch != null) {
+                    widget.onSearch!("");  // Clear the search input
+                  }
+                }
               });
-
-              if (!_isSearching) {
-                // Only UI change Body reload / filter call Not Call
-                _searchController.clear();
-
-                // If you don't want the body to reload, then turn off these two
-                widget.onSearch?.call("");
-                widget.onSearchClosed?.call();
-              }
             },
             icon: Icon(
               _isSearching ? Icons.close : Icons.search_rounded,

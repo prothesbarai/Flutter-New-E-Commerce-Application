@@ -30,7 +30,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            // 🖼️ Product Image
+            // Product Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
