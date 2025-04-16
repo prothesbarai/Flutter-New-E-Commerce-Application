@@ -1,3 +1,4 @@
+import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import '../models/product_model.dart';
 import '../widgets/customBottomNavBar.dart';
@@ -76,7 +77,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pinkAccent,
+                  backgroundColor: AppColor.pink1,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
@@ -84,7 +85,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 },
                 child: const Text(
                   'Add to Cart',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 18, color: AppColor.white),
                 ),
               ),
             ),

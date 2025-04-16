@@ -60,21 +60,12 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          userName,
-                          style: TextStyle(
-                            color: AppColor.white,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Text(userName, style: TextStyle(color: AppColor.white, fontSize: 20.sp, fontWeight: FontWeight.bold,),
                         ),
                         SizedBox(height: 2.h),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Text(
-                            userEmail,
-                            style: TextStyle(color: AppColor.white, fontSize: 15.sp),
-                          ),
+                          child: Text(userEmail, style: TextStyle(color: AppColor.white, fontSize: 15.sp),),
                         )
                       ],
                     ),
