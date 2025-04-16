@@ -4,6 +4,7 @@ import '../models/product_model.dart';
 import '../widgets/customBottomNavBar.dart';
 import '../widgets/customFloatingActionButton.dart';
 import '../widgets/custom_app_bar.dart';
+// import 'newArrivalsAllProductItems.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final ProductModel product;
@@ -15,8 +16,14 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  int quantity = 1;
+  final List<String> packOptions = [
+    "120 Count (Pack of 1)",
+    "240 Count (Pack of 2)",
+    "360 Count (Pack of 3)"
+  ];
+  String selectedPack = "120 Count (Pack of 1)";
 
-  // Avoid Memory Lake
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,47 +37,120 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // Product Image
+            // 🧃 Product Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
                   widget.product.imageUrl,
-                  height: 250,
-                  width: double.infinity,
+                  height: 200,
+                  width: 160,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(height: 20),
 
-            // 📛 Title
+            // 🧾 Title & Brand
             Text(
               widget.product.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                const Text("Visit ",
+                    style: TextStyle(fontSize: 16, color: Colors.grey)),
+                Text(
+                  "SAN Pharma",
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: AppColor.pink1,
+                      fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 6),
+                const Icon(Icons.star, size: 16, color: Colors.orange),
+                const Text(" 4.8 (2.2k)",
+                    style: TextStyle(fontSize: 14, color: Colors.grey)),
+              ],
+            ),
+            const SizedBox(height: 16),
 
-            // 💵 Price
+            // 💰 Price
             Text(
               "Price: ৳${widget.product.regularPrice}",
-              style: const TextStyle(fontSize: 18, color: Colors.green),
+              style: const TextStyle(fontSize: 20, color: Colors.green),
+            ),
+            const SizedBox(height: 16),
+
+            // 📦 Pack dropdown + Quantity
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF1FD),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: DropdownButton<String>(
+                      value: selectedPack,
+                      isExpanded: true,
+                      underline: const SizedBox(),
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: packOptions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedPack = newValue!;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent.shade100),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () {
+                          if (quantity > 1) {
+                            setState(() {
+                              quantity--;
+                            });
+                          }
+                        },
+                      ),
+                      Text(quantity.toString()),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          setState(() {
+                            quantity++;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
-
-            // 📦 Description
-            const Text(
-              "Product Description",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              widget.product.title ?? "No description available.",
-              style: const TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 30),
 
             // 🛒 Add to Cart Button
             SizedBox(
@@ -81,7 +161,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 onPressed: () {
-                  // Add to cart action
+                  // Add to cart logic
                 },
                 child: const Text(
                   'Add to Cart',
@@ -89,6 +169,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 30),
+
+            // 🔄 Similar Supplement Section
+            const Text(
+              "Similar Supplement",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+
+
           ],
         ),
       ),
