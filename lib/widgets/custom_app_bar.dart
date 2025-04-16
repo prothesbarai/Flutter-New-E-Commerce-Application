@@ -44,7 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       iconTheme: IconThemeData(
         color: AppColor.pink1,
       ),
-      title: (widget.showSearchBox && _isSearching)
+      title: widget.showSearchBox && _isSearching
           ? TextField(
         controller: _searchController,
         autofocus: true,
@@ -108,27 +108,31 @@ class _CustomAppBarState extends State<CustomAppBar> {
             );
           },
         ),
-        PopupMenuButton<String>(
-          icon: Icon(Icons.more_vert, color: AppColor.pink1),
-          onSelected: (value) {
-            if (value == 'settings') {
-              // Navigate to settings
-            } else if (value == 'logout') {
-              Navigator.pushReplacementNamed(context, '/login');
-            }
-          },
-          itemBuilder: (BuildContext context) {
-            return [
-              PopupMenuItem(
-                value: 'settings',
-                child: Text(AppString.setting),
-              ),
-              PopupMenuItem(
-                value: 'logout',
-                child: Text(AppString.logout),
-              ),
-            ];
-          },
+        // The PopupMenuButton should be structured with proper constraints
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert, color: AppColor.pink1),
+            onSelected: (value) {
+              if (value == 'settings') {
+                // Navigate to settings
+              } else if (value == 'logout') {
+                Navigator.pushReplacementNamed(context, '/login');
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Text(AppString.setting),
+                ),
+                PopupMenuItem(
+                  value: 'logout',
+                  child: Text(AppString.logout),
+                ),
+              ];
+            },
+          ),
         ),
       ],
     );
