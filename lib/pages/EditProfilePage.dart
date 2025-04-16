@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
+import '../data_api/push_profile_api.dart'; // Import the API service
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
 
+class _EditProfilePageState extends State<EditProfilePage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  // Create an instance of ApiService
+  final ApiService apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+  }
+
+  // Method to load user profile data from API
+  Future<void> _loadUserProfile() async {
+    final userProfile = await apiService.fetchUserProfile();
+    if (userProfile.isNotEmpty) {
+      _nameController.text = userProfile['name'];
+      _emailController.text = userProfile['email'];
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Profile'),
@@ -26,13 +50,18 @@ class EditProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Handle saving the profile changes
+              onPressed: () async {
                 String name = _nameController.text;
                 String email = _emailController.text;
 
-                // You can send these values to an API or update the state here
-                print('Name: $name, Email: $email');
+                // Update profile data using the API service
+                bool success = await apiService.updateUserProfile(name, email);
+
+                if (success) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Updated')));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update profile')));
+                }
               },
               child: Text('Save Changes'),
             ),

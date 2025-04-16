@@ -1,7 +1,7 @@
 import 'package:AppStore/widgets/customBottomNavBar.dart';
 import 'package:AppStore/widgets/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
-import '../data_api/api_service.dart';
+import '../data_api/get_items_info_api.dart';
 import '../models/product_model.dart';
 import '../widgets/custom_app_bar.dart';
 import 'newArrivalsAllProductItems.dart';

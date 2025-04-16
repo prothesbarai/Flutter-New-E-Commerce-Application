@@ -7,7 +7,7 @@ import 'package:AppStore/widgets/customHomePageProductDesign.dart';
 import 'package:AppStore/widgets/customHomePageProductTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../data_api/api_service.dart';
+import '../data_api/get_items_info_api.dart';
 import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
