@@ -1,3 +1,4 @@
+import 'package:AppStore/pages/product_details_page.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -102,13 +103,23 @@ class _ProductItemState extends State<ProductItem> {
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.network(
-                  widget.product.imageUrl,
-                  height: 110,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailsPage(product: widget.product),
+                    ),
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  child: Image.network(
+                    widget.product.imageUrl,
+                    height: 110,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(
@@ -210,38 +221,48 @@ class _ProductItemState extends State<ProductItem> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: Colors.blueGrey.shade50,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.product.title,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailsPage(product: widget.product),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  'Regular : ৳${widget.product.regularPrice.toStringAsFixed(0)}',
-                  style: const TextStyle(fontSize: 12),
-                ),
-                Text(
-                  'Member : ৳${widget.product.memberPrice.toStringAsFixed(0)}',
-                  style: const TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 13),
-                ),
-                const SizedBox(height: 4),
-                const Row(
-                  children: [
-                    Icon(Icons.star, color: AppColor.pink1, size: 14),
-                    Icon(Icons.star, color: AppColor.pink1, size: 14),
-                    Icon(Icons.star, color: AppColor.pink1, size: 14),
-                    Icon(Icons.star, color: AppColor.pink1, size: 14),
-                    Icon(Icons.star, color: AppColor.pink1, size: 14),
-                  ],
-                ),
-              ],
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.blueGrey.shade50,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.product.title,
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Regular : ৳${widget.product.regularPrice.toStringAsFixed(0)}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                  Text(
+                    'Member : ৳${widget.product.memberPrice.toStringAsFixed(0)}',
+                    style: const TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 13),
+                  ),
+                  const SizedBox(height: 4),
+                  const Row(
+                    children: [
+                      Icon(Icons.star, color: AppColor.pink1, size: 14),
+                      Icon(Icons.star, color: AppColor.pink1, size: 14),
+                      Icon(Icons.star, color: AppColor.pink1, size: 14),
+                      Icon(Icons.star, color: AppColor.pink1, size: 14),
+                      Icon(Icons.star, color: AppColor.pink1, size: 14),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -109,6 +109,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       CustomHomePageProductTitle(title: "Canada Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
                       Customhomepageproductdesign(displayedProducts: displayedProducts),
 
+                      // Check For Check Load Items......
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: 50,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 3 / 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Card(
+                            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(child: Text('Items No :  ${index + 1}')),
+                            ),
+                          );
+                        },
+                      ),
+
                       SizedBox(height: 50.h,)
                     ],
                   ),

@@ -86,7 +86,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                 return ProductItem(
                   product: product,
                   onTap: () {
-                    // cart e add korar logic ekhane thakbe
+
                   },
                 );
               },
