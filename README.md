@@ -71,10 +71,7 @@ Made with ❤️ by Prothes Barai
 
 
 
-
-
-
-## 👉 Backend API Generate :
+## 👉 Backend API Get Items Info :
 ```php
    <?php
       header('Content-Type: application/json');
@@ -107,6 +104,55 @@ Made with ❤️ by Prothes Barai
       $conn->close();
    ?>
 
+```
+
+## 👉 Backend API Push Profile Data : 
+```php
+  <?php
+        $host = 'localhost';
+        $user = 'root';
+        $pass = '';
+        $dbname = 'pifast';
+        
+        // Database connection
+        $conn = new mysqli($host, $user, $pass, $dbname);
+        if ($conn->connect_error) {
+            die(json_encode(["status" => "error", "message" => $conn->connect_error]));
+        }
+        
+        // Create table if not exists
+        $createTableSql = "
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100),
+            email VARCHAR(100)
+        )";
+        $conn->query($createTableSql);
+        
+        // Get data from POST
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        
+        // Check if there's already a user (assuming one user only)
+        $checkSql = "SELECT * FROM users WHERE id = 1";
+        $result = $conn->query($checkSql);
+        
+        if ($result->num_rows > 0) {
+            // Update existing user
+            $sql = "UPDATE users SET name = '$name', email = '$email' WHERE id = 1";
+        } else {
+            // Insert new user
+            $sql = "INSERT INTO users (id, name, email) VALUES (1, '$name', '$email')";
+        }
+        
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(["status" => "success"]);
+        } else {
+            echo json_encode(["status" => "error", "message" => $conn->error]);
+        }
+        
+        $conn->close();
+  ?>
 ```
 
 
