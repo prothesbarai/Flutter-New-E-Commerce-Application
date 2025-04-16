@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Define the base URL (adjust this depending on your server setup)
-  static const String baseUrl = 'http://10.0.2.2/pifast_Api/update_profile_info.php'; // Update this URL for your local server
+  static const String baseUrl = 'http://10.0.2.2/pifast_Api/update_profile_info.php';// Update this URL for your local server
 
   // Method to update user profile
   Future<bool> updateUserProfile(String name, String email) async {
