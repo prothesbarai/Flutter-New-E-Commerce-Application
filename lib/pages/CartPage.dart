@@ -46,11 +46,11 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        title: const Text('🛒 My Cart'),
+        title: const Text('🛒 My Cart',style: TextStyle(color: AppColor.pink1),),
         centerTitle: true,
 
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back,color: AppColor.pink1,),
           onPressed: () {
             Navigator.pop(context, true); // Back result
           },
@@ -68,7 +68,7 @@ class _CartPageState extends State<CartPage> {
           builder: (context, box, _) {
             if (box.isEmpty) {
               return const Center(
-                child: Text('Cart is Empty 🛍️', style: TextStyle(fontSize: 18)),
+                child: Text('Cart is Empty 🛍️', style: TextStyle(fontSize: 18,color: AppColor.pink1)),
               );
             }
 

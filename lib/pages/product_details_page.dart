@@ -1,18 +1,55 @@
 import 'package:flutter/material.dart';
 import '../models/product_model.dart';
+import '../widgets/customBottomNavBar.dart';
+import '../widgets/customFloatingActionButton.dart';
+import '../widgets/custom_app_bar.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends StatefulWidget {
   final ProductModel product;
 
   const ProductDetailsPage({super.key, required this.product});
 
   @override
+  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
+
+  bool _isSearching = false;
+  final TextEditingController _customSearchController1 = TextEditingController();
+  final TextEditingController _appBarsearchController2= TextEditingController();
+  List<ProductModel> allProducts = [];
+  List<ProductModel> filteredProducts = [];
+  List<ProductModel> displayedProducts = [];
+  // Avoid Memory Lake
+  @override
+  void dispose() {
+    _customSearchController1.dispose();
+    _appBarsearchController2.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.title),
-        backgroundColor: Colors.pinkAccent,
+      appBar: CustomAppBar(
+        isSearching: _isSearching,
+        searchController: _appBarsearchController2,
+        onSearchToggle: (value) {
+          setState(() {
+            _isSearching = value;
+            if (!value) {
+              _customSearchController1.clear();
+              filteredProducts = [];
+              displayedProducts = allProducts.take(5).toList();
+            }
+          });
+        },
       ),
+      resizeToAvoidBottomInset: false,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Customfloatingactionbutton(isHome: false),
+      bottomNavigationBar: Custombottomnavbar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -24,7 +61,7 @@ class ProductDetailsPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
-                  product.imageUrl,
+                  widget.product.imageUrl,
                   height: 250,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -35,14 +72,14 @@ class ProductDetailsPage extends StatelessWidget {
 
             // 📛 Title
             Text(
-              product.title,
+              widget.product.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
 
             // 💵 Price
             Text(
-              "Price: ৳${product.regularPrice}",
+              "Price: ৳${widget.product.regularPrice}",
               style: const TextStyle(fontSize: 18, color: Colors.green),
             ),
             const SizedBox(height: 20),
@@ -54,7 +91,7 @@ class ProductDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              product.title ?? "No description available.",
+              widget.product.title ?? "No description available.",
               style: const TextStyle(fontSize: 16),
             ),
 
