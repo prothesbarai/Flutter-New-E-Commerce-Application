@@ -38,12 +38,40 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.dispose();
   }
 
+  // Helper method to show the bottom sheet menu.
+  void _showMenuSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: Icon(Icons.settings, color: AppColor.pink1),
+                title: Text(AppString.setting),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout, color: AppColor.pink1),
+                title: Text(AppString.logout),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: IconThemeData(
-        color: AppColor.pink1,
-      ),
+      iconTheme: IconThemeData(color: AppColor.pink1),
       title: widget.showSearchBox && _isSearching
           ? TextField(
         controller: _searchController,
@@ -67,7 +95,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
       )
           : SizedBox(
         height: 30.h,
-        child: Image.asset('assets/images/logos.png'),
+        child: Image.asset(
+          'assets/images/logos.png',
+          height: 30.h,
+        ),
       ),
       flexibleSpace: Container(
         decoration: BoxDecoration(
@@ -79,25 +110,24 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ),
       actions: [
-        if (widget.showSearchBox)
-          IconButton(
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              setState(() {
-                _isSearching = !_isSearching;
-                if (!_isSearching) {
-                  _searchController.clear();
-                  if (widget.onSearch != null) {
-                    widget.onSearch!("");  // Clear the search input
-                  }
+        IconButton(
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            setState(() {
+              _isSearching = !_isSearching;
+              if (!_isSearching) {
+                _searchController.clear();
+                if (widget.onSearch != null) {
+                  widget.onSearch!("");
                 }
-              });
-            },
-            icon: Icon(
-              _isSearching ? Icons.close : Icons.search_rounded,
-              color: AppColor.pink1,
-            ),
+              }
+            });
+          },
+          icon: Icon(
+            _isSearching ? Icons.close : Icons.search_rounded,
+            color: AppColor.pink1,
           ),
+        ),
         CartIconWithBadge(
           onTap: () {
             Navigator.push(
@@ -108,30 +138,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
             );
           },
         ),
-        // The PopupMenuButton should be structured with proper constraints
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: PopupMenuButton<String>(
+          child: IconButton(
             icon: Icon(Icons.more_vert, color: AppColor.pink1),
-            onSelected: (value) {
-              if (value == 'settings') {
-                // Navigate to settings
-              } else if (value == 'logout') {
-                Navigator.pushReplacementNamed(context, '/login');
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  value: 'settings',
-                  child: Text(AppString.setting),
-                ),
-                PopupMenuItem(
-                  value: 'logout',
-                  child: Text(AppString.logout),
-                ),
-              ];
-            },
+            onPressed: _showMenuSheet,
           ),
         ),
       ],
