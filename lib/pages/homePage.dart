@@ -11,7 +11,7 @@ import '../data_api/api_service.dart';
 import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_search_bar.dart';
+import '../widgets/custom_body_search_bar.dart';
 import 'ReusableAllProductsPage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -43,7 +43,17 @@ class _MyHomePageState extends State<MyHomePage> {
       confirmText: AppString.exitConfrimBtn,
       cancelText: AppString.exitCancelBtn,
       child: Scaffold(
-        appBar: CustomAppBar(showSearchBox: true),
+        appBar: CustomAppBar(
+          showSearchBox: true,
+          onSearch: (value) {
+            setState(() {
+              displayedProducts = allProducts
+                  .where((product) =>
+                  product.title.toLowerCase().contains(value.toLowerCase()))
+                  .toList();
+            });
+          },
+        ),
         drawer: Customdrawerwidget(),
         body: SafeArea(
           child: FutureBuilder<List<ProductModel>>(
