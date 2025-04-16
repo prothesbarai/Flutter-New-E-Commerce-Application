@@ -21,9 +21,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isSearching = false;
   final TextEditingController _customSearchController = TextEditingController();
-  final TextEditingController _appBarsearchController = TextEditingController();
   final ApiService apiService = ApiService();
 
   List<ProductModel> allProducts = [];
@@ -34,7 +32,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _customSearchController.dispose();
-    _appBarsearchController.dispose();
     super.dispose();
   }
 
@@ -46,20 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       confirmText: AppString.exitConfrimBtn,
       cancelText: AppString.exitCancelBtn,
       child: Scaffold(
-        appBar: CustomAppBar(
-          isSearching: _isSearching,
-          searchController: _appBarsearchController,
-          onSearchToggle: (value) {
-            setState(() {
-              _isSearching = value;
-              if (!value) {
-                _customSearchController.clear();
-                filteredProducts = [];
-                displayedProducts = allProducts.take(5).toList();
-              }
-            });
-          },
-        ),
+        appBar: CustomAppBar(showSearchBox: true),
         drawer: Customdrawerwidget(),
         body: SafeArea(
           child: FutureBuilder<List<ProductModel>>(

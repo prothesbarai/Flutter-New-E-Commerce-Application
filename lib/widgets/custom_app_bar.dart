@@ -4,18 +4,38 @@ import '../pages/CartPage.dart';
 import '../utils/AppColor.dart';
 import '../utils/AppString.dart';
 import 'cardBadgesIconWidget.dart';
+import 'customAppBarSearchBox.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isSearching;
-  final TextEditingController searchController;
-  final Function(bool) onSearchToggle;
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final bool showSearchBox;
 
   const CustomAppBar({
     Key? key,
-    required this.isSearching,
-    required this.searchController,
-    required this.onSearchToggle,
+    required this.showSearchBox,
   }) : super(key: key);
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  late TextEditingController _searchController;
+  bool _isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +43,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: IconThemeData(
         color: AppColor.pink1,
       ),
-      title: isSearching
-          ? TextField(
-        controller: searchController,
-        autofocus: true,
-        cursorHeight: 16.h,
-        cursorWidth: 1.5.w,
-        decoration: InputDecoration(
-          hintText: AppString.searchHint,
-          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14.sp),
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        style: TextStyle(color: Colors.black),
-        onChanged: (value) {},
-      ):SizedBox(
+      title: (widget.showSearchBox && _isSearching)
+          ? SearchBox(
+        controller: _searchController,
+        onChanged: (value) {
+          // এখানে সার্চ ফিল্টার লজিক লিখো
+        },
+      )
+          : SizedBox(
         height: 30.h,
         child: Image.asset('assets/images/logos.png'),
       ),
@@ -57,19 +64,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            onSearchToggle(!isSearching);
-            if (!isSearching) {
-              searchController.clear();
-            }
-          },
-          icon: Icon(
-            isSearching ? Icons.close : Icons.search_rounded,
-            color: AppColor.pink1,
+        if (widget.showSearchBox)
+          IconButton(
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              setState(() {
+                _isSearching = !_isSearching;
+                if (!_isSearching) {
+                  _searchController.clear();
+                }
+              });
+            },
+            icon: Icon(
+              _isSearching ? Icons.close : Icons.search_rounded,
+              color: AppColor.pink1,
+            ),
           ),
-        ),
         CartIconWithBadge(
           onTap: () {
             Navigator.push(
@@ -84,10 +94,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.more_vert, color: AppColor.pink1),
           onSelected: (value) {
             if (value == 'settings') {
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );*/
+              // Navigate to settings
             } else if (value == 'logout') {
               Navigator.pushReplacementNamed(context, '/login');
             }
@@ -108,7 +115,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

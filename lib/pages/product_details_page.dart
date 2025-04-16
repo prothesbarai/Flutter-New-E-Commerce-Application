@@ -15,37 +15,11 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
-  bool _isSearching = false;
-  final TextEditingController _customSearchController1 = TextEditingController();
-  final TextEditingController _appBarsearchController2= TextEditingController();
-  List<ProductModel> allProducts = [];
-  List<ProductModel> filteredProducts = [];
-  List<ProductModel> displayedProducts = [];
   // Avoid Memory Lake
-  @override
-  void dispose() {
-    _customSearchController1.dispose();
-    _appBarsearchController2.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        isSearching: _isSearching,
-        searchController: _appBarsearchController2,
-        onSearchToggle: (value) {
-          setState(() {
-            _isSearching = value;
-            if (!value) {
-              _customSearchController1.clear();
-              filteredProducts = [];
-              displayedProducts = allProducts.take(5).toList();
-            }
-          });
-        },
-      ),
+      appBar: CustomAppBar(showSearchBox: false),
       resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Customfloatingactionbutton(isHome: false),
