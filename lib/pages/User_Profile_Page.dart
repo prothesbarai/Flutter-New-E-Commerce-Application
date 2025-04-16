@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data_api/push_profile_api.dart'; // Your API service
-import '../helper/profile_database_helper.dart';       // Your local SQLite helper
+import '../data_api/push_profile_page_api.dart'; // Your API service
+import '../helper/profile_page_database_helper.dart';       // Your local SQLite helper
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
