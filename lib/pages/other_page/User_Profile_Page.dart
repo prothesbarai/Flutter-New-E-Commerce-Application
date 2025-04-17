@@ -1,9 +1,9 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data_api/push_profile_page_api.dart'; // Your API service
-import '../helper/profile_page_database_helper.dart';
-import '../providers/user_profile_data_provider.dart'; // Your local SQLite helper
+import '../../data_api/push_profile_page_api.dart'; // Your API service
+import '../../helper/profile_page_database_helper.dart';
+import '../../providers/user_profile_data_provider.dart'; // Your local SQLite helper
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});

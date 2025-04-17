@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../pages/CartPage.dart';
+import '../pages/other_page/CartPage.dart';
 import '../utils/AppColor.dart';
 import '../utils/AppString.dart';
 import 'cardBadgesIconWidget.dart';

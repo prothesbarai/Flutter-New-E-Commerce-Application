@@ -12,7 +12,7 @@ import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_body_search_bar.dart';
-import 'ReusableAllProductsPage.dart';
+import 'other_page/ReusableAllProductsPage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

@@ -2,7 +2,7 @@ import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../pages/User_Profile_Page.dart';
+import '../pages/other_page/User_Profile_Page.dart';
 import '../providers/user_profile_data_provider.dart';
 
 class Customdrawerwidget extends StatelessWidget {
