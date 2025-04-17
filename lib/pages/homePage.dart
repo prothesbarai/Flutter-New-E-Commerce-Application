@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           });
                         },
                       ),
+
                       CustomHomePageProductTitle(title: "New Arrivals", allItemsName: "All Products", pageRoute: AllProductsPage()),
                       Customhomepageproductdesign(displayedProducts: displayedProducts),
                       CustomHomePageProductTitle(title: "Indian Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
@@ -104,7 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       Customhomepageproductdesign(displayedProducts: displayedProducts),
 
                       // Check For Check Load Items......
-                      GridView.builder(
+
+
+                      SizedBox(height: 50.h,),
+
+                      /*GridView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: 50,
@@ -123,9 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         },
-                      ),
-
-                      SizedBox(height: 50.h,)
+                      ),*/
                     ],
                   ),
                 );

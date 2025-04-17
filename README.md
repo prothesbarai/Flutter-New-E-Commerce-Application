@@ -108,7 +108,7 @@ Made with ❤️ by Prothes Barai
 
 ## 👉 Backend API Push Profile Data : 
 ```php
-  <?php
+    <?php
         $host = 'localhost';
         $user = 'root';
         $pass = '';
@@ -152,7 +152,8 @@ Made with ❤️ by Prothes Barai
         }
         
         $conn->close();
-  ?>
+    ?>
+
 ```
 
 
