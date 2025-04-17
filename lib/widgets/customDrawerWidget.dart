@@ -34,6 +34,10 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
         userEmail = 'No Email Found';
       });
     }
+
+    // Debug log (optional)
+    print("Updated userName: $userName");
+    print("Updated userEmail: $userEmail");
   }
 
   @override
@@ -42,7 +46,12 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColor.pink1, AppColor.pink2, AppColor.pink3, AppColor.pink1],
+            colors: [
+              AppColor.pink1,
+              AppColor.pink2,
+              AppColor.pink3,
+              AppColor.pink1
+            ],
             tileMode: TileMode.repeated,
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
@@ -53,19 +62,32 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
             DrawerHeader(
               child: Row(
                 children: [
-                  Icon(Icons.account_circle, color: AppColor.yellowAccent, size: 78.sp),
+                  Icon(Icons.account_circle,
+                      color: AppColor.yellowAccent, size: 78.sp),
                   SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(userName, style: TextStyle(color: AppColor.white, fontSize: 20.sp, fontWeight: FontWeight.bold,),
+                        Text(
+                          userName,
+                          style: TextStyle(
+                            color: AppColor.white,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 2.h),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Text(userEmail, style: TextStyle(color: AppColor.white, fontSize: 15.sp),),
+                          child: Text(
+                            userEmail,
+                            style: TextStyle(
+                              color: AppColor.white,
+                              fontSize: 15.sp,
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -92,8 +114,7 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
     );
   }
 
-  Widget _buildDrawerItem(
-      IconData icon, String title, BuildContext context, Widget destinationPage) {
+  Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage,) {
     return ListTile(
       leading: Icon(icon, color: AppColor.yellowAccent),
       title: Text(
@@ -106,8 +127,12 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
           context,
           MaterialPageRoute(builder: (context) => destinationPage),
         );
-        // Optional: Drawer এ ফেরত আসলে আবার লোড করাও
-        await loadProfileData();
+
+        // If EditProfilePage returned true, refresh profile info
+        if (result == true) {
+          await loadProfileData();
+          setState(() {}); // Update UI
+        }
       },
     );
   }
