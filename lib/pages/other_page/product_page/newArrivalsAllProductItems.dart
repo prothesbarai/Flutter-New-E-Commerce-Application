@@ -128,12 +128,30 @@ class _ProductItemState extends State<ProductItem> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(30),
+                    color: AppColor.pink1,
+                    borderRadius: BorderRadius.only(bottomRight:Radius.circular(10)),
                   ),
-                  child: Text(
-                    '${widget.product.discount}% Off',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                  child: RichText(  // Uses For In One line text Different Font Size
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '-${widget.product.discount}%', // Discount value
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' For Members', // The "Off" part
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 8, // Smaller font
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
