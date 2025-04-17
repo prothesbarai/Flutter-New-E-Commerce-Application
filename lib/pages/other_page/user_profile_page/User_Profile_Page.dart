@@ -1,9 +1,9 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../data_api/push_profile_page_api.dart'; // Your API service
+import '../../../data_api/push_profile_page_api.dart';
 import '../../../helper/profile_page_database_helper.dart';
-import '../../../providers/user_profile_data_provider.dart'; // Your local SQLite helper
+import '../../../providers/user_profile_data_provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -20,7 +20,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _billingaddressController = TextEditingController();
 
   final ApiService apiService = ApiService();
-  bool _fromSaved = false; // ✅ Flag to avoid online overwrite after saving
+  bool _fromSaved = false;
 
   @override
   void initState() {
@@ -29,7 +29,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future<void> _loadUserProfile() async {
-    // Try local first
     final localData = await DatabaseHelper.instance.getUserProfile();
     if (localData != null) {
       _nameController.text = localData['name'];
@@ -39,8 +38,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _billingaddressController.text = localData['billing_address'];
     }
 
-    // Then try online (optional)
-    // ✅ Prevent online fetch after save to avoid overwriting recent update
     if (!_fromSaved) {
       final userProfile = await apiService.fetchUserProfile();
       if (userProfile.isNotEmpty) {
@@ -57,12 +54,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile',style: TextStyle(color: AppColor.pink1),),
+        title: Text('Edit Profile', style: TextStyle(color: AppColor.pink1)),
         centerTitle: true,
         iconTheme: IconThemeData(color: AppColor.pink1),
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -72,8 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               _buildTextField(_cityController, "City", Icons.location_city),
               _buildTextField(_shippingaddressController, "Shipping Address", Icons.local_shipping),
               _buildTextField(_billingaddressController, "Billing Address", Icons.place),
-              SizedBox(height: 20),
-
+              const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: _saveProfile,
                 icon: const Icon(Icons.save),
@@ -86,8 +81,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -95,45 +88,38 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-
-  // ================== User Input Field Design Here ========================
-  Widget _buildTextField(TextEditingController controller, String lebel, IconData icon){
+  Widget _buildTextField(TextEditingController controller, String label, IconData icon) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            prefixIcon: Icon(icon),
-            labelText: lebel,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
+      padding: const EdgeInsets.only(bottom: 16),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon),
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
+      ),
     );
   }
 
-  // ================== User Profile Data Saved Button =========================
-  Future<void> _saveProfile() async{
+  Future<void> _saveProfile() async {
     String name = _nameController.text;
     String email = _emailController.text;
     String city = _cityController.text;
-    String shipping_address = _shippingaddressController.text;
-    String billing_address = _billingaddressController.text;
+    String shipping = _shippingaddressController.text;
+    String billing = _billingaddressController.text;
 
-    // First try online update
-    bool success = await apiService.updateUserProfile(name, email, city, shipping_address, billing_address);
+    bool success = await apiService.updateUserProfile(name, email, city, shipping, billing);
+
     if (success) {
-      // Save to local DB too
-      await DatabaseHelper.instance.saveUserProfile(name, email, city, shipping_address, billing_address);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile Updated')),
-      );
-      // 🔥 Update Provider Send Data To Drawer in App
+      _fromSaved = true;
+      await DatabaseHelper.instance.saveUserProfile(name, email, city, shipping, billing);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile Updated')));
       Provider.of<UserProfileProvider>(context, listen: false).setUser(name, email);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update profile')),
-      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to update profile')));
     }
-
   }
 }

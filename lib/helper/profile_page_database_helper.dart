@@ -3,7 +3,6 @@ import 'package:path/path.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
-
   static Database? _database;
 
   DatabaseHelper._init();
@@ -17,7 +16,6 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
@@ -34,31 +32,24 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<void> saveUserProfile(String name, String email,String city,String shipping_address,String billing_address) async {
+  Future<void> saveUserProfile(String name, String email, String city, String shipping, String billing) async {
     final db = await instance.database;
     await db.insert(
       'user_profile',
-      { 'name':name, 'email':email, 'city':city, 'shipping_address':shipping_address, 'billing_address' :billing_address },
+      {
+        'name': name,
+        'email': email,
+        'city': city,
+        'shipping_address': shipping,
+        'billing_address': billing,
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   Future<Map<String, dynamic>?> getUserProfile() async {
     final db = await instance.database;
-    final result = await db.query('user_profile', limit: 1);
-    if (result.isNotEmpty) {
-      return result.first;
-    }
-    return null;
-  }
-
-  Future<void> updateUserProfile(String name, String email,String city,String shipping_address,String billing_address) async {
-    final db = await instance.database;
-    await db.update(
-      'user_profile',
-      { 'name':name, 'email':email, 'city':city, 'shipping_address':shipping_address, 'billing_address' :billing_address },
-      where: 'id = ?',
-      whereArgs: [1], // Assuming a single user, or you can modify for dynamic IDs
-    );
+    final result = await db.query('user_profile', orderBy: 'id DESC', limit: 1);
+    return result.isNotEmpty ? result.first : null;
   }
 }
