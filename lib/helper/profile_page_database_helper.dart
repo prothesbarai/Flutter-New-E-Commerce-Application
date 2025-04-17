@@ -29,7 +29,7 @@ class DatabaseHelper {
         email TEXT,
         city TEXT,
         shipping_address TEXT,
-        billing_address TEXT,
+        billing_address TEXT
       )
     ''');
   }
