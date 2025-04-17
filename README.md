@@ -114,36 +114,30 @@ Made with ❤️ by Prothes Barai
         $pass = '';
         $dbname = 'pifast';
         
-        // Database connection
         $conn = new mysqli($host, $user, $pass, $dbname);
         if ($conn->connect_error) {
             die(json_encode(["status" => "error", "message" => $conn->connect_error]));
         }
         
-        // Create table if not exists
-        $createTableSql = "
-        CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(100),
-            email VARCHAR(100)
-        )";
-        $conn->query($createTableSql);
+        $conn->query("
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100),
+                email VARCHAR(100),
+                city VARCHAR(100),
+                shipping_address VARCHAR(255),
+                billing_address VARCHAR(255)
+            )
+        ");
         
-        // Get data from POST
-        $name = $_POST['name'];
-        $email = $_POST['email'];
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $city = $_POST['city'] ?? '';
+        $shipping_address = $_POST['shipping_address'] ?? '';
+        $billing_address = $_POST['billing_address'] ?? '';
         
-        // Check if there's already a user (assuming one user only)
-        $checkSql = "SELECT * FROM users WHERE id = 1";
-        $result = $conn->query($checkSql);
-        
-        if ($result->num_rows > 0) {
-            // Update existing user
-            $sql = "UPDATE users SET name = '$name', email = '$email' WHERE id = 1";
-        } else {
-            // Insert new user
-            $sql = "INSERT INTO users (id, name, email) VALUES (1, '$name', '$email')";
-        }
+        $sql = "INSERT INTO users (name, email, city, shipping_address, billing_address) 
+                VALUES ('$name', '$email', '$city', '$shipping_address', '$billing_address')";
         
         if ($conn->query($sql) === TRUE) {
             echo json_encode(["status" => "success"]);
@@ -153,7 +147,6 @@ Made with ❤️ by Prothes Barai
         
         $conn->close();
     ?>
-
 ```
 
 
