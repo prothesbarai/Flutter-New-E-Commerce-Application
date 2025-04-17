@@ -26,16 +26,19 @@ class DatabaseHelper {
       CREATE TABLE user_profile (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        email TEXT
+        email TEXT,
+        city TEXT,
+        shipping_address TEXT,
+        billing_address TEXT,
       )
     ''');
   }
 
-  Future<void> saveUserProfile(String name, String email) async {
+  Future<void> saveUserProfile(String name, String email,String city,String shipping_address,String billing_address) async {
     final db = await instance.database;
     await db.insert(
       'user_profile',
-      {'name': name, 'email': email},
+      { 'name':name, 'email':email, 'city':city, 'shipping_address':shipping_address, 'billing_address' :billing_address },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -49,11 +52,11 @@ class DatabaseHelper {
     return null;
   }
 
-  Future<void> updateUserProfile(String name, String email) async {
+  Future<void> updateUserProfile(String name, String email,String city,String shipping_address,String billing_address) async {
     final db = await instance.database;
     await db.update(
       'user_profile',
-      {'name': name, 'email': email},
+      { 'name':name, 'email':email, 'city':city, 'shipping_address':shipping_address, 'billing_address' :billing_address },
       where: 'id = ?',
       whereArgs: [1], // Assuming a single user, or you can modify for dynamic IDs
     );

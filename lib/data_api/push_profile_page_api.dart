@@ -6,7 +6,7 @@ class ApiService {
   static const String baseUrl = 'http://10.0.2.2/pifast_Api/';// Update this URL for your local server
 
   // Method to update user profile
-  Future<bool> updateUserProfile(String name, String email) async {
+  Future<bool> updateUserProfile(String name, String email,String city,String shipping_address,String billing_address) async {
     try {
       // The API endpoint to save/update user profile
       final url = Uri.parse('$baseUrl/update_profile_info.php');
@@ -17,6 +17,9 @@ class ApiService {
         body: {
           'name': name,
           'email': email,
+          'city': city,
+          'shipping_address': shipping_address,
+          'billing_address': billing_address,
         },
       );
 
