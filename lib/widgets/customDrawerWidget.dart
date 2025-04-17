@@ -35,7 +35,7 @@ class Customdrawerwidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          profile.name.isEmpty ? 'No Name' : profile.name,
+                          profile.name.isEmpty ? 'No Name' : profile.name.split(" ").first,
                           style: TextStyle(
                             color: AppColor.white,
                             fontSize: 20.sp,
