@@ -1,57 +1,22 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../helper/profile_page_database_helper.dart';
+import 'package:provider/provider.dart';
 import '../pages/User_Profile_Page.dart';
+import '../providers/user_profile_provider.dart';
 
-class Customdrawerwidget extends StatefulWidget {
+class Customdrawerwidget extends StatelessWidget {
   const Customdrawerwidget({super.key});
 
   @override
-  State<Customdrawerwidget> createState() => _CustomdrawerwidgetState();
-}
-
-class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
-  String userName = 'Loading...';
-  String userEmail = 'Loading...';
-
-  @override
-  void initState() {
-    super.initState();
-    loadProfileData();
-  }
-
-  Future<void> loadProfileData() async {
-    final profile = await DatabaseHelper.instance.getUserProfile();
-    if (profile != null) {
-      setState(() {
-        userName = profile['name'] ?? 'No Name';
-        userEmail = profile['email'] ?? 'No Email';
-      });
-    } else {
-      setState(() {
-        userName = 'No Name Found';
-        userEmail = 'No Email Found';
-      });
-    }
-
-    // Debug log (optional)
-    print("Updated userName: $userName");
-    print("Updated userEmail: $userEmail");
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<UserProfileProvider>(context); // 🔄 Listen for updates
+
     return Drawer(
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              AppColor.pink1,
-              AppColor.pink2,
-              AppColor.pink3,
-              AppColor.pink1
-            ],
+            colors: [AppColor.pink1, AppColor.pink2, AppColor.pink3, AppColor.pink1],
             tileMode: TileMode.repeated,
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
@@ -62,8 +27,7 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
             DrawerHeader(
               child: Row(
                 children: [
-                  Icon(Icons.account_circle,
-                      color: AppColor.yellowAccent, size: 78.sp),
+                  Icon(Icons.account_circle, color: AppColor.yellowAccent, size: 78.sp),
                   SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
@@ -71,7 +35,7 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          userName,
+                          profile.name.isEmpty ? 'No Name' : profile.name,
                           style: TextStyle(
                             color: AppColor.white,
                             fontSize: 20.sp,
@@ -82,11 +46,8 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Text(
-                            userEmail,
-                            style: TextStyle(
-                              color: AppColor.white,
-                              fontSize: 15.sp,
-                            ),
+                            profile.email.isEmpty ? 'No Email' : profile.email,
+                            style: TextStyle(color: AppColor.white, fontSize: 15.sp),
                           ),
                         )
                       ],
@@ -114,7 +75,12 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title, BuildContext context, Widget destinationPage,) {
+  Widget _buildDrawerItem(
+      IconData icon,
+      String title,
+      BuildContext context,
+      Widget destinationPage,
+      ) {
     return ListTile(
       leading: Icon(icon, color: AppColor.yellowAccent),
       title: Text(
@@ -128,11 +94,7 @@ class _CustomdrawerwidgetState extends State<Customdrawerwidget> {
           MaterialPageRoute(builder: (context) => destinationPage),
         );
 
-        // If EditProfilePage returned true, refresh profile info
-        if (result == true) {
-          await loadProfileData();
-          setState(() {}); // Update UI
-        }
+        // No need to call loadProfileData manually — provider auto updates the UI
       },
     );
   }
