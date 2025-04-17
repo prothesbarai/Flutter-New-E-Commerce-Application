@@ -1,5 +1,5 @@
 import 'package:AppStore/pages/splashScreen.dart';
-import 'package:AppStore/providers/user_profile_provider.dart';
+import 'package:AppStore/providers/user_profile_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
