@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../models/product_model.dart';
-import '../pages/other_page/newArrivalsAllProductItems.dart';
+import '../pages/other_page/product_page/newArrivalsAllProductItems.dart';
 
 class Customhomepageproductdesign extends StatelessWidget {
   List<ProductModel> displayedProducts;

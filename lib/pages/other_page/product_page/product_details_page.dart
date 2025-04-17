@@ -1,9 +1,9 @@
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
-import '../../models/product_model.dart';
-import '../../widgets/customBottomNavBar.dart';
-import '../../widgets/customFloatingActionButton.dart';
-import '../../widgets/custom_app_bar.dart';
+import '../../../models/product_model.dart';
+import '../../../widgets/customBottomNavBar.dart';
+import '../../../widgets/customFloatingActionButton.dart';
+import '../../../widgets/custom_app_bar.dart';
 // import 'newArrivalsAllProductItems.dart';
 
 class ProductDetailsPage extends StatefulWidget {

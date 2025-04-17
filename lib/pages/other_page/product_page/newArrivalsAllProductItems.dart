@@ -1,10 +1,10 @@
-import 'package:AppStore/pages/other_page/product_details_page.dart';
+import 'package:AppStore/pages/other_page/product_page/product_details_page.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../../models/product_model.dart';
-import 'CartPage.dart';
-import '../../utils/cart_helper.dart';
+import '../../../models/product_model.dart';
+import '../card_page/CartPage.dart';
+import '../../../utils/cart_helper.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductModel product;
