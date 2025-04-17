@@ -64,10 +64,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             children: [
               _buildTextField(_nameController, "Name", Icons.person),
-              _buildTextField(_emailController, "Email", Icons.email),
-              _buildTextField(_cityController, "City", Icons.location_city),
-              _buildTextField(_shippingaddressController, "Shipping Address", Icons.local_shipping),
               _buildTextField(_billingaddressController, "Billing Address", Icons.place),
+              _buildTextField(_shippingaddressController, "Shipping Address", Icons.local_shipping),
+              _buildTextField(_cityController, "City", Icons.location_city),
+              _buildTextField(_emailController, "Email", Icons.email),
+
               const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: _saveProfile,
