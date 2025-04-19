@@ -17,16 +17,23 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   String selectedPaymentMethod = 'instant'; // 'instant' or 'cod'
   String selectedInstantMethod = 'bKash';
+  String selectedCODArea = 'dhaka'; // 'dhaka' or 'outside'
 
-  double get extraCODCharge => selectedPaymentMethod == 'cod' ? 50.0 : 0.0;
-  double get totalAmount => widget.total + extraCODCharge;
+  double get deliveryCharge {
+    if (selectedPaymentMethod == 'cod') {
+      return selectedCODArea == 'dhaka' ? 60.0 : 110.0;
+    }
+    return 0.0;
+  }
+
+  double get totalAmount => widget.total + deliveryCharge;
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProfileProvider>(context);
 
     return WillPopScope(
-      onWillPop: () async => true, // block accidental pop if needed
+      onWillPop: () async => true,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Payment Info', style: TextStyle(color: AppColor.pink1)),
@@ -52,19 +59,35 @@ class _PaymentPageState extends State<PaymentPage> {
               ],
 
               if (selectedPaymentMethod == 'cod') ...[
+                _buildSectionTitle("📦 Delivery Area"),
+                _buildCODAreaSelector(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text("📦 Cash on Delivery (Extra ৳50 will be added)",
-                    style: TextStyle(color: Colors.red.shade400),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    selectedCODArea == 'dhaka'
+                        ? "Inside Dhaka delivery charge: ৳60"
+                        : "Outside Dhaka delivery charge: ৳110",
+                    style: TextStyle(
+                      color: Colors.red.shade400,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
 
               const Divider(height: 30),
 
-              _buildSectionTitle("💰 Total Amount"),
-              Text("৳${totalAmount.toStringAsFixed(2)}",
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              _buildSectionTitle("💰 Payment Summary"),
+              _buildInfoRow("🛍️ Product Price", "৳${widget.total.toStringAsFixed(2)}"),
+              _buildInfoRow("🚚 Delivery Charge", "৳${deliveryCharge.toStringAsFixed(2)}"),
+              const SizedBox(height: 8),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("Total: ৳${totalAmount.toStringAsFixed(2)}",
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                ],
               ),
 
               const SizedBox(height: 20),
@@ -81,8 +104,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  icon: const Icon(Icons.check_circle_outline),
-                  label: const Text('Order Now', style: TextStyle(fontSize: 16)),
+                  icon: const Icon(Icons.check_circle_outline,color: AppColor.white,),
+                  label: const Text('Order Now', style: TextStyle(fontSize: 16,color:AppColor.white)),
                 ),
               ),
             ],
@@ -122,7 +145,7 @@ class _PaymentPageState extends State<PaymentPage> {
           onChanged: (value) => setState(() => selectedPaymentMethod = value!),
         ),
         RadioListTile<String>(
-          title: const Text("Cash on Delivery (+৳50)"),
+          title: const Text("Cash on Delivery"),
           value: 'cod',
           groupValue: selectedPaymentMethod,
           onChanged: (value) => setState(() => selectedPaymentMethod = value!),
@@ -146,6 +169,25 @@ class _PaymentPageState extends State<PaymentPage> {
           labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
         );
       }).toList(),
+    );
+  }
+
+  Widget _buildCODAreaSelector() {
+    return Column(
+      children: [
+        RadioListTile<String>(
+          title: const Text("Inside Dhaka (৳60)"),
+          value: 'dhaka',
+          groupValue: selectedCODArea,
+          onChanged: (value) => setState(() => selectedCODArea = value!),
+        ),
+        RadioListTile<String>(
+          title: const Text("Outside Dhaka (৳110)"),
+          value: 'outside',
+          groupValue: selectedCODArea,
+          onChanged: (value) => setState(() => selectedCODArea = value!),
+        ),
+      ],
     );
   }
 
