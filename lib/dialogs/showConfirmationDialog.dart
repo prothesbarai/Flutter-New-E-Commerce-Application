@@ -21,7 +21,7 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
               ),
               child: const Icon(Icons.check_circle, size: 28, color: AppColor.pink1,),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 15),
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(text: "Your order of ", style: const TextStyle(color: Colors.grey),
@@ -31,7 +31,7 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 15),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close dialog
