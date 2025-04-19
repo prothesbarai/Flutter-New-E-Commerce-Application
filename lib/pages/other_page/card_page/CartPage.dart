@@ -193,7 +193,7 @@ class _CartPageState extends State<CartPage> {
 
                 // Bottom Bar
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 20),
+                  padding: const EdgeInsets.only(left: 16,right:16,top: 20,bottom: 40),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                     border: const Border(top: BorderSide(color: Colors.grey)),
