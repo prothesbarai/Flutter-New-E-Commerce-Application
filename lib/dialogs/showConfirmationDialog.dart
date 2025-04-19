@@ -13,6 +13,14 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
           children: [
             const Text("Order Confirmed", style: TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 18,),textAlign: TextAlign.center,),
             const Divider(),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColor.pink1.withOpacity(0.1), // Light pink background
+              ),
+              child: const Icon(Icons.check_circle, size: 28, color: AppColor.pink1,),
+            ),
             const SizedBox(height: 8),
             RichText(
               textAlign: TextAlign.center,
