@@ -1,4 +1,4 @@
-import 'package:AppStore/pages/other_page/product_page/product_details_page.dart';
+import 'package:AppStore/pages/other_page/product_page/product_details_page/product_details_page.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
