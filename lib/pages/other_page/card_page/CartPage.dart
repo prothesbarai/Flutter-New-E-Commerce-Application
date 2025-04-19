@@ -48,7 +48,7 @@ class _CartPageState extends State<CartPage> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pop();
         });
         return AlertDialog(
