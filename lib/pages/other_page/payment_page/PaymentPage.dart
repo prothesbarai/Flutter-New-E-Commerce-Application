@@ -208,12 +208,5 @@ class _PaymentPageState extends State<PaymentPage> {
       showConfirmationDialog(context, totalAmount);
     }
   }
-
-
-
-
-
-
-
-
+  
 }
