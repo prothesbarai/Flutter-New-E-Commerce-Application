@@ -7,13 +7,11 @@ import 'package:AppStore/widgets/customHomePageProductDesign.dart';
 import 'package:AppStore/widgets/customHomePageProductTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../data_api/get_items_info_api.dart';
-import '../models/catagory_models.dart';
 import '../models/product_model.dart';
-import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_body_search_bar.dart';
 import 'other_page/product_page/ReusableAllProductsPage.dart';
+import '../utils/AppDataCache.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,11 +21,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _customSearchController = TextEditingController();
-  final ApiService apiService = ApiService();
+  final AppDataCache cache = AppDataCache();
 
-  List<ProductModel> allProducts = [];
-  List<ProductModel> filteredProducts = [];
   List<ProductModel> displayedProducts = [];
+  String appBarSearchQuery = ""; // ✅ track appbar search
 
   @override
   void dispose() {
@@ -35,8 +32,26 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  // ✅ Shared method for both search bars
+  void _filterProducts(String query) {
+    final all = cache.productsByCategory.values.expand((e) => e).toList();
+    setState(() {
+      appBarSearchQuery = query;
+      if (query.trim().isEmpty) {
+        displayedProducts.clear();
+      } else {
+        displayedProducts = all
+            .where((product) =>
+            product.title.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final categories = cache.categories;
+
     return ExitConfirmationWrapper(
       title: AppString.exitTitle,
       message: AppString.exitMessage,
@@ -45,114 +60,64 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: CustomAppBar(
           showSearchBox: true,
-          onSearch: (value) {
-            setState(() {
-              displayedProducts = allProducts
-                  .where((product) =>
-                  product.title.toLowerCase().contains(value.toLowerCase()))
-                  .toList();
-            });
-          },
+          onSearch: _filterProducts, // ✅ Realtime search
         ),
         drawer: Customdrawerwidget(),
         body: SafeArea(
-          child: FutureBuilder<List<CategoryModel>>(
-            future: ApiService.fetchCategories(),
-            builder: (context, categorySnapshot) {
-              if (categorySnapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator(color: AppColor.pink1));
-              } else if (categorySnapshot.hasError) {
-                return Center(child: Text('Error loading categories'));
-              } else if (!categorySnapshot.hasData || categorySnapshot.data!.isEmpty) {
-                return Center(child: Text('No categories available'));
-              }
-
-              final categories = categorySnapshot.data!;
-
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Search Bar
-                    CustomSearchBar(
-                      controller: _customSearchController,
-                      onChanged: (value) {
-                        // Check if search bar is cleared
-                        if (value.trim().isEmpty) {
-                          setState(() {
-                            displayedProducts.clear(); // go back to normal view
-                          });
-                        }
-                      },
-                      onSubmitted: (value) async {
-                        if (value.trim().isEmpty) return;
-
-                        List<ProductModel> all = [];
-                        for (var category in categories) {
-                          final items = await ApiService.fetchProductsByCategory(category.tableName);
-                          all.addAll(items);
-                        }
-
-                        final filtered = all
-                            .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
-                            .toList();
-
-                        setState(() {
-                          displayedProducts = filtered;
-                        });
-                      },
-                    ),
-
-                    // If search is active, show results only
-                    if (displayedProducts.isNotEmpty)
-                      Column(
-                        children: [
-                          CustomHomePageProductTitle(
-                            title: "Search Results",
-                            allItemsName: "All Products",
-                            pageRoute: ReusableAllProductsPage(tableName: "products"), // fallback
-                          ),
-                          Customhomepageproductdesign(displayedProducts: displayedProducts.take(5).toList()),
-                        ],
-                      )
-                    else if (_customSearchController.text.isEmpty)
-                    // Show default category list
-                      ...categories.map((category) {
-                        return FutureBuilder<List<ProductModel>>(
-                          future: ApiService.fetchProductsByCategory(category.tableName),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                child: Center(
-                                  child: CircularProgressIndicator(color: AppColor.pink1),
-                                ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Center(child: Text('Error loading ${category.name}'));
-                            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                              final products = snapshot.data!.take(5).toList();
-                              return Column(
-                                children: [
-                                  CustomHomePageProductTitle(
-                                    title: category.name,
-                                    allItemsName: "All Products",
-                                    pageRoute: ReusableAllProductsPage(tableName: category.tableName),
-                                  ),
-                                  Customhomepageproductdesign(displayedProducts: products),
-                                ],
-                              );
-                            } else {
-                              return SizedBox(); // No products
-                            }
-                          },
-                        );
-                      }).toList(),
-
-                    SizedBox(height: 50.h),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // ✅ Body search bar (optional but no conflict)
+                CustomSearchBar(
+                  controller: _customSearchController,
+                  onChanged: (value) {
+                    if (value.trim().isEmpty) {
+                      _filterProducts(""); // clear results
+                    }
+                  },
+                  onSubmitted: (value) {
+                    if (value.trim().isEmpty) return;
+                    _filterProducts(value); // manual filter
+                  },
                 ),
-              );
-            },
+
+                // ✅ Show search results
+                if (displayedProducts.isNotEmpty)
+                  Column(
+                    children: [
+                      CustomHomePageProductTitle(
+                        title: "Search Results",
+                        allItemsName: "All Products",
+                        pageRoute: ReusableAllProductsPage(tableName: "products"),
+                      ),
+                      Customhomepageproductdesign(
+                          displayedProducts: displayedProducts.take(5).toList()),
+                    ],
+                  )
+
+                // ✅ Show categories only if appbar search is empty
+                else if (appBarSearchQuery.isEmpty)
+                  ...categories.map((category) {
+                    final products = cache.productsByCategory[category.tableName] ?? [];
+                    if (products.isEmpty) return SizedBox();
+
+                    return Column(
+                      children: [
+                        CustomHomePageProductTitle(
+                          title: category.name,
+                          allItemsName: "All Products",
+                          pageRoute: ReusableAllProductsPage(
+                              tableName: category.tableName),
+                        ),
+                        Customhomepageproductdesign(
+                            displayedProducts: products.take(5).toList()),
+                      ],
+                    );
+                  }).toList(),
+
+                SizedBox(height: 50.h),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Custombottomnavbar(),

@@ -7,7 +7,7 @@ import 'cardBadgesIconWidget.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool showSearchBox;
-  final Function(String)? onSearch;
+  final Function(String)? onSearch; // ✅ Search callback
 
   const CustomAppBar({
     Key? key,
@@ -38,7 +38,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.dispose();
   }
 
-  // Helper method to show the bottom sheet menu.
   void _showMenuSheet() {
     showModalBottomSheet(
       context: context,
@@ -82,7 +81,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           hintText: AppString.searchHint,
           hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14.sp),
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -91,7 +91,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
         style: TextStyle(color: Colors.black),
-        onChanged: widget.onSearch,
+        onChanged: widget.onSearch, // ✅ Dynamic search update
       )
           : SizedBox(
         height: 30.h,
@@ -118,7 +118,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               if (!_isSearching) {
                 _searchController.clear();
                 if (widget.onSearch != null) {
-                  widget.onSearch!("");
+                  widget.onSearch!(""); // ✅ Clear search
                 }
               }
             });
