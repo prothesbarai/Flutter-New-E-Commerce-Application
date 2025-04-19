@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class CustomHomePageProductTitle extends StatelessWidget {
   final String title;
   final String allItemsName;
   final Widget pageRoute;
+
   const CustomHomePageProductTitle({
     super.key,
     required this.title,
@@ -14,13 +15,16 @@ class CustomHomePageProductTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -29,11 +33,13 @@ class CustomHomePageProductTitle extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => pageRoute),
               );
             },
-            child: Row(
-              children: [
-                Text(allItemsName, style: TextStyle(fontSize: 14.sp)),
-                Icon(Icons.arrow_forward_ios, size: 14),
-              ],
+            child: Text(
+              allItemsName,
+              style: const TextStyle(
+                color: Colors.blue,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

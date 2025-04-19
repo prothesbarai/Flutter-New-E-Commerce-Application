@@ -8,6 +8,7 @@ import 'package:AppStore/widgets/customHomePageProductTitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../data_api/get_items_info_api.dart';
+import '../models/catagory_models.dart';
 import '../models/product_model.dart';
 import '../utils/AppColor.dart';
 import '../widgets/custom_app_bar.dart';
@@ -28,7 +29,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<ProductModel> filteredProducts = [];
   List<ProductModel> displayedProducts = [];
 
-  // Avoid Memory Lake
   @override
   void dispose() {
     _customSearchController.dispose();
@@ -56,94 +56,110 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         drawer: Customdrawerwidget(),
         body: SafeArea(
-          child: FutureBuilder<List<ProductModel>>(
-            future: ApiService.fetchProducts(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          child: FutureBuilder<List<CategoryModel>>(
+            future: ApiService.fetchCategories(),
+            builder: (context, categorySnapshot) {
+              if (categorySnapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator(color: AppColor.pink1));
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: \${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                allProducts = snapshot.data!;
-                if (displayedProducts.isEmpty) {
-                  displayedProducts = allProducts.take(5).toList();
-                }
-
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      CustomSearchBar(
-                        controller: _customSearchController,
-                        onChanged: (value) {
-                          if (value.isEmpty) {
-                            setState(() {
-                              displayedProducts = allProducts.take(5).toList();
-                            });
-                          }
-                        },
-                        onSubmitted: (value) {
-                          setState(() {
-                            filteredProducts = allProducts
-                                .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
-                                .toList();
-                            if (filteredProducts.isEmpty) {
-                              displayedProducts = allProducts.take(5).toList();
-                            } else {
-                              displayedProducts = filteredProducts;
-                            }
-                          });
-                        },
-                      ),
-
-                      CustomHomePageProductTitle(title: "New Arrivals", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      Customhomepageproductdesign(displayedProducts: displayedProducts),
-                      CustomHomePageProductTitle(title: "Indian Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      Customhomepageproductdesign(displayedProducts: displayedProducts),
-                      CustomHomePageProductTitle(title: "America Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      Customhomepageproductdesign(displayedProducts: displayedProducts),
-                      CustomHomePageProductTitle(title: "Canada Product", allItemsName: "All Products", pageRoute: AllProductsPage()),
-                      Customhomepageproductdesign(displayedProducts: displayedProducts),
-
-                      // Check For Check Load Items......
-
-
-                      SizedBox(height: 50.h,),
-
-                      /*GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 50,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 3 / 2,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                            child: Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Center(child: Text('Items No :  ${index + 1}')),
-                            ),
-                          );
-                        },
-                      ),*/
-                    ],
-                  ),
-                );
-              } else {
-                return Center(child: Text('No products available'));
+              } else if (categorySnapshot.hasError) {
+                return Center(child: Text('Error loading categories'));
+              } else if (!categorySnapshot.hasData || categorySnapshot.data!.isEmpty) {
+                return Center(child: Text('No categories available'));
               }
+
+              final categories = categorySnapshot.data!;
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Search Bar
+                    CustomSearchBar(
+                      controller: _customSearchController,
+                      onChanged: (value) {
+                        // Check if search bar is cleared
+                        if (value.trim().isEmpty) {
+                          setState(() {
+                            displayedProducts.clear(); // go back to normal view
+                          });
+                        }
+                      },
+                      onSubmitted: (value) async {
+                        if (value.trim().isEmpty) return;
+
+                        List<ProductModel> all = [];
+                        for (var category in categories) {
+                          final items = await ApiService.fetchProductsByCategory(category.tableName);
+                          all.addAll(items);
+                        }
+
+                        final filtered = all
+                            .where((product) => product.title.toLowerCase().contains(value.toLowerCase()))
+                            .toList();
+
+                        setState(() {
+                          displayedProducts = filtered;
+                        });
+                      },
+                    ),
+
+                    // If search is active, show results only
+                    if (displayedProducts.isNotEmpty)
+                      Column(
+                        children: [
+                          CustomHomePageProductTitle(
+                            title: "Search Results",
+                            allItemsName: "All Products",
+                            pageRoute: ReusableAllProductsPage(tableName: "products"), // fallback
+                          ),
+                          Customhomepageproductdesign(displayedProducts: displayedProducts.take(5).toList()),
+                        ],
+                      )
+                    else if (_customSearchController.text.isEmpty)
+                    // Show default category list
+                      ...categories.map((category) {
+                        return FutureBuilder<List<ProductModel>>(
+                          future: ApiService.fetchProductsByCategory(category.tableName),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Center(
+                                  child: CircularProgressIndicator(color: AppColor.pink1),
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text('Error loading ${category.name}'));
+                            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                              final products = snapshot.data!.take(5).toList();
+                              return Column(
+                                children: [
+                                  CustomHomePageProductTitle(
+                                    title: category.name,
+                                    allItemsName: "All Products",
+                                    pageRoute: ReusableAllProductsPage(tableName: category.tableName),
+                                  ),
+                                  Customhomepageproductdesign(displayedProducts: products),
+                                ],
+                              );
+                            } else {
+                              return SizedBox(); // No products
+                            }
+                          },
+                        );
+                      }).toList(),
+
+                    SizedBox(height: 50.h),
+                  ],
+                ),
+              );
             },
           ),
         ),
         bottomNavigationBar: Custombottomnavbar(),
         resizeToAvoidBottomInset: false,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Customfloatingactionbutton(isHome: true,),
+        floatingActionButton: Customfloatingactionbutton(isHome: true),
       ),
     );
   }
-
 }

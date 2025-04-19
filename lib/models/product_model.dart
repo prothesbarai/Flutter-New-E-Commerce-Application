@@ -16,24 +16,37 @@ class ProductModel {
     required this.memberPrice,
     required this.discount,
     required this.total_quantity,
-    this.quantity = 0
+    this.quantity = 0,
   });
+
+  // Safe number parser
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    final cleaned = value.toString().replaceAll(RegExp(r'[^\d.]'), '');
+    return double.tryParse(cleaned) ?? 0.0;
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    final cleaned = value.toString().replaceAll(RegExp(r'[^\d]'), '');
+    return int.tryParse(cleaned) ?? 0;
+  }
 
   // Map to Model
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: int.parse(map['id'].toString()),
+      id: _parseInt(map['id']),
       imageUrl: map['imageUrl'] ?? '',
       title: map['title'] ?? '',
-      regularPrice: double.parse(map['regularPrice'].toString()),
-      memberPrice: double.parse(map['memberPrice'].toString()),
-      discount: int.parse(map['discount'].toString()),
-      total_quantity: int.parse(map['total_quantity'].toString()),
-    );//  Here The Json Format Data Parsing
+      regularPrice: _parseDouble(map['regularPrice']),
+      memberPrice: _parseDouble(map['memberPrice']),
+      discount: _parseInt(map['discount']),
+      total_quantity: _parseInt(map['total_quantity']),
+    );
   }
 
 
-  /*// (Optional) Model to Map
+/*// (Optional) Model to Map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
