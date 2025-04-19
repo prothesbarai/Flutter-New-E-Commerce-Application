@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../../../models/product_model.dart';
 import '../card_page/CartPage.dart';
-import '../../../utils/cart_helper.dart';
+import '../../../helper/cart_helper.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductModel product;
