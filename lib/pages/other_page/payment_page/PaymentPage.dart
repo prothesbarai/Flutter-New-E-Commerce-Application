@@ -164,6 +164,7 @@ class _PaymentPageState extends State<PaymentPage> {
         return ChoiceChip(
           label: Text(method),
           selected: isSelected,
+          checkmarkColor: AppColor.white,
           onSelected: (_) => setState(() => selectedInstantMethod = method),
           selectedColor: AppColor.pink1.withOpacity(0.8),
           labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
