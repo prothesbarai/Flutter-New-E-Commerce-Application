@@ -21,7 +21,7 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
               ),
               child: const Icon(Icons.check_circle, size: 28, color: AppColor.pink1,),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(text: "Your order of ", style: const TextStyle(color: Colors.grey),
