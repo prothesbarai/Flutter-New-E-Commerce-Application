@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:AppStore/utils/AppColor.dart';
 import '../../../providers/user_profile_data_provider.dart';
+import 'generic_payment_page.dart'; // Updated to use generic page
 
 class PaymentPage extends StatefulWidget {
   final double total;
@@ -81,7 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
               _buildInfoRow("🛍️ Product Price", "৳${widget.total.toStringAsFixed(2)}"),
               _buildInfoRow("🚚 Delivery Charge", "৳${deliveryCharge.toStringAsFixed(2)}"),
               const SizedBox(height: 8),
-              Divider(),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -104,8 +104,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  icon: const Icon(Icons.check_circle_outline,color: AppColor.white,),
-                  label: const Text('Order Now', style: TextStyle(fontSize: 16,color:AppColor.white)),
+                  icon: const Icon(Icons.check_circle_outline, color: AppColor.white),
+                  label: const Text('Order Now', style: TextStyle(fontSize: 16, color: AppColor.white)),
                 ),
               ),
             ],
@@ -193,16 +193,32 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _confirmOrder() {
+    if (selectedPaymentMethod == 'instant') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => GenericPaymentPage(
+            method: selectedInstantMethod,
+            amount: totalAmount,
+          ),
+        ),
+      );
+    } else {
+      _showConfirmationDialog();
+    }
+  }
+
+  void _showConfirmationDialog() {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("✅ Order Confirmed"),
+        title: const Text("Order Confirmed"),
         content: Text("Your order of ৳${totalAmount.toStringAsFixed(2)} has been placed successfully."),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // close dialog
-              Navigator.of(context).pop(); // back to cart or home
+              Navigator.of(context).pop(); // back to previous screen
             },
             child: const Text("OK"),
           ),
