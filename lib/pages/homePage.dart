@@ -1,5 +1,5 @@
 import 'package:AppStore/utils/AppString.dart';
-import 'package:AppStore/widgets/ExitConfirmationWrapper.dart';
+import 'package:AppStore/dialogs/ExitConfirmationWrapper.dart';
 import 'package:AppStore/widgets/customBottomNavBar.dart';
 import 'package:AppStore/widgets/customDrawerWidget.dart';
 import 'package:AppStore/widgets/customFloatingActionButton.dart';
