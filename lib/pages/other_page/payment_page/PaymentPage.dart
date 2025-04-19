@@ -208,22 +208,59 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+
+
   void _showConfirmationDialog() {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Order Confirmed"),
-        content: Text("Your order of ৳${totalAmount.toStringAsFixed(2)} has been placed successfully."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // close dialog
-              Navigator.of(context).pop(); // back to previous screen
-            },
-            child: const Text("OK"),
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Order Confirmed", style: TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 18,),textAlign: TextAlign.center,),
+              Divider(),
+              const SizedBox(height: 8),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: "Your order of ",
+                  style: TextStyle(color: Colors.grey),
+                  children: [
+                    TextSpan(text: " ৳${totalAmount.toStringAsFixed(2)} ", style: TextStyle(color: AppColor.pink1, fontWeight: FontWeight.w500,),),
+                    TextSpan(text: "has been placed successfully.", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500,),),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                  Navigator.of(context).pop(); // Go back to previous screen
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ).copyWith(backgroundColor: MaterialStateProperty.resolveWith((states) {
+                    return const Color(0xFF8e005e); // fallback for gradient
+                  }),
+                ),
+                child: const Text("OK", style: TextStyle(color: Colors.white, fontSize: 16),),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+
+
+
+
 }
