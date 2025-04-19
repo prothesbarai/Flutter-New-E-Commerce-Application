@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../../models/product_model.dart';
+import '../payment_page/PaymentPage.dart';
 
 class CartPage extends StatefulWidget {
   final List<ProductModel> latestProducts;
@@ -40,6 +41,39 @@ class _CartPageState extends State<CartPage> {
       }
     }
   }
+
+  // Goto Payment page and Show Progressbar
+  void _showProcessingAndNavigate(double total) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
+        return AlertDialog(
+          alignment: Alignment.center,
+          backgroundColor: Colors.black87,
+          content: const Text(
+            'Process Checkout.....',
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        );
+      },
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentPage(
+          latestProducts: widget.latestProducts,
+          total: total, // total এখন প্যারামিটার থেকে আসছে
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -184,24 +218,7 @@ class _CartPageState extends State<CartPage> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           ),
                           onPressed: () {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                Future.delayed(const Duration(seconds: 2), () {
-                                  Navigator.of(context).pop(); // 2 সেকেন্ড পরে dialog বন্ধ
-                                });
-                                return AlertDialog(
-                                  alignment: Alignment.center,
-                                  backgroundColor: Colors.black87,
-                                  content: const Text(
-                                    'Process Checkout.....',
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
-                              },
-                            );
+                            _showProcessingAndNavigate(total);
                           },
                           child: Text('Checkout', style: TextStyle(fontSize: 16.sp, color: AppColor.white)),
                         ),
