@@ -126,7 +126,7 @@ class _ProductItemState extends State<ProductItem> {
                 top: 0,
                 left: 0,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
                   decoration: BoxDecoration(
                     color: AppColor.pink1,
                     borderRadius: BorderRadius.only(bottomRight:Radius.circular(10)),
