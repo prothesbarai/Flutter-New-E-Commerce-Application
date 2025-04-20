@@ -60,18 +60,13 @@ class _PaymentPageState extends State<PaymentPage> {
               ],
 
               if (selectedPaymentMethod == 'cod') ...[
-                _buildSectionTitle("📦 Delivery Area"),
-                _buildCODAreaSelector(),
+                // Delivary Area Selection
+                /*_buildSectionTitle("📦 Delivery Area"),
+                _buildCODAreaSelector(),*/  //
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    selectedCODArea == 'dhaka'
-                        ? "Inside Dhaka delivery charge: ৳60"
-                        : "Outside Dhaka delivery charge: ৳110",
-                    style: TextStyle(
-                      color: Colors.red.shade400,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  /*child: Text(selectedCODArea == 'dhaka' ? "Inside Dhaka delivery charge: ৳60" : "Outside Dhaka delivery charge: ৳110", style: TextStyle(color: Colors.red.shade400, fontWeight: FontWeight.w500,),*/
+                  child: Text("Delivery charge: ৳60", style: TextStyle(color: Colors.red.shade400, fontWeight: FontWeight.w500,),
                   ),
                 ),
               ],
@@ -174,7 +169,8 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget _buildCODAreaSelector() {
+  // Delivary Area Selection
+ /* Widget _buildCODAreaSelector() {
     return Column(
       children: [
         RadioListTile<String>(
@@ -191,7 +187,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
       ],
     );
-  }
+  }*/
 
   void _confirmOrder() {
     if (selectedPaymentMethod == 'instant') {

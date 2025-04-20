@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final AppDataCache cache = AppDataCache();
 
   List<ProductModel> displayedProducts = [];
-  String appBarSearchQuery = ""; // ✅ track appbar search
+  String appBarSearchQuery = ""; // ====================  ✅ track appbar search ====================================
 
   @override
   void dispose() {
@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  // ✅ Shared method for both search bars
+  // ================================ ✅ Shared method for both search bars ========================================
   void _filterProducts(String query) {
     final all = cache.productsByCategory.values.expand((e) => e).toList();
     setState(() {
@@ -60,14 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: CustomAppBar(
           showSearchBox: true,
-          onSearch: _filterProducts, // ✅ Realtime search
+          onSearch: _filterProducts, // =================== ✅ Realtime search ==========================
         ),
         drawer: Customdrawerwidget(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // ✅ Body search bar (optional but no conflict)
+                // ====================== ✅ Body search bar (optional but no conflict) ================================
                 CustomSearchBar(
                   controller: _customSearchController,
                   onChanged: (value) {
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
 
-                // ✅ Show search results
+                // ========================================== ✅ Show search results ========================================
                 if (displayedProducts.isNotEmpty)
                   Column(
                     children: [
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   )
 
-                // ✅ Show categories only if appbar search is empty
+                // =========================================== ✅ Show categories only if appbar search is empty ===============================================
                 else if (appBarSearchQuery.isEmpty)
                   ...categories.map((category) {
                     final products = cache.productsByCategory[category.tableName] ?? [];
@@ -109,8 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           pageRoute: ReusableAllProductsPage(
                               tableName: category.tableName),
                         ),
-                        Customhomepageproductdesign(
-                            displayedProducts: products.take(5).toList()),
+                        Customhomepageproductdesign(displayedProducts: products.take(5).toList()),
                       ],
                     );
                   }).toList(),
