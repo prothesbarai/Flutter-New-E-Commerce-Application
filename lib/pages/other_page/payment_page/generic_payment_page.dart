@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:AppStore/utils/AppColor.dart';
 
+import '../../../dialogs/showConfirmationDialog.dart';
+
 class GenericPaymentPage extends StatefulWidget {
   final String method;
   final double amount;
@@ -114,7 +116,7 @@ class _GenericPaymentPageState extends State<GenericPaymentPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      _showSuccessDialog(context);
+                      showConfirmationDialog(context, "Payment Received", "Your ${widget.method} payment of ", " ৳${widget.amount.toStringAsFixed(2)}", " has been confirmed.");
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -130,27 +132,6 @@ class _GenericPaymentPageState extends State<GenericPaymentPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("🎉 Payment Received"),
-        content: Text(
-            "Your ${widget.method} payment of ৳${widget.amount.toStringAsFixed(2)} has been confirmed."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            child: const Text("OK"),
-          ),
-        ],
       ),
     );
   }

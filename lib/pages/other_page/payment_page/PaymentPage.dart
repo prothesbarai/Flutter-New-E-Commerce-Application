@@ -205,7 +205,7 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
       );
     } else {
-      showConfirmationDialog(context, totalAmount);
+      showConfirmationDialog(context, "Order Confirmed", "Your order of ", " ৳${totalAmount.toStringAsFixed(2)}", " has been placed successfully.");
     }
   }
 

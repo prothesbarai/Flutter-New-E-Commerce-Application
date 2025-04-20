@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/AppColor.dart';
 
-void showConfirmationDialog(BuildContext context, double totalAmount) {
+void showConfirmationDialog(BuildContext context, String title, String des1, String des2, String des3) {
   showDialog(
     context: context,
     builder: (_) => Dialog(
@@ -11,7 +11,7 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text("Order Confirmed", style: TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 18,),textAlign: TextAlign.center,),
+            Text(title, style: TextStyle(color: AppColor.pink1, fontWeight: FontWeight.bold, fontSize: 18,),textAlign: TextAlign.center,),
             const Divider(),
             Container(
               padding: const EdgeInsets.all(12),
@@ -24,10 +24,10 @@ void showConfirmationDialog(BuildContext context, double totalAmount) {
             const SizedBox(height: 15),
             RichText(
               textAlign: TextAlign.center,
-              text: TextSpan(text: "Your order of ", style: const TextStyle(color: Colors.grey),
+              text: TextSpan(text: des1, style: const TextStyle(color: Colors.grey),
                 children: [
-                  TextSpan(text: " ৳${totalAmount.toStringAsFixed(2)} ", style: const TextStyle(color: AppColor.pink1, fontWeight: FontWeight.w500,),),
-                  const TextSpan(text: "has been placed successfully.", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500,),),
+                  TextSpan(text: des2, style: const TextStyle(color: AppColor.pink1, fontWeight: FontWeight.w500,),),
+                  TextSpan(text: des3, style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500,),),
                 ],
               ),
             ),
