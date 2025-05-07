@@ -45,6 +45,10 @@ This project is designed to offer a seamless shopping experience for users and a
    flutter run            # for mobile
 ```
 
+
+
+
+
 5. **Setup the backend**
 
 - Start your XAMPP server
